@@ -16,18 +16,17 @@ import g2 from "../assets/g2.svg";
 import g3 from "../assets/g3.svg";
 import g4 from "../assets/g4.png";
 import g5 from "../assets/g5.svg";
-import Link from "next/link";
-
-
+import { Link } from "react-router-dom";
 
 const textStyle = {
-  fontSize: '2.5rem',
-  width: '15rem',
-  textAlign: 'center',
-  fontWeight: 'bold',
-  color: '#fff',
-  textShadow: '0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00, 0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00, 0 0 35px #00ff00',
-  animation: 'glow 1.5s infinite alternate',
+  fontSize: "2.5rem",
+  width: "15rem",
+  textAlign: "center",
+  fontWeight: "bold",
+  color: "#fff",
+  textShadow:
+    "0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00, 0 0 20px #00ff00, 0 0 25px #00ff00, 0 0 30px #00ff00, 0 0 35px #00ff00",
+  animation: "glow 1.5s infinite alternate",
 };
 
 const glowKeyframes = `
@@ -43,29 +42,29 @@ const glowKeyframes = `
 function Home() {
   return (
     <div>
-       <style jsx>{`
-  @keyframes vibrate {
-    0% {
-      transform: translate(0);
-    }
-    25% {
-      transform: translate(-2px, 2px);
-    }
-    50% {
-      transform: translate(2px, -2px);
-    }
-    75% {
-      transform: translate(-2px, -2px);
-    }
-    100% {
-      transform: translate(2px, 2px);
-    }
-  }
+      <style jsx>{`
+        @keyframes vibrate {
+          0% {
+            transform: translate(0);
+          }
+          25% {
+            transform: translate(-2px, 2px);
+          }
+          50% {
+            transform: translate(2px, -2px);
+          }
+          75% {
+            transform: translate(-2px, -2px);
+          }
+          100% {
+            transform: translate(2px, 2px);
+          }
+        }
 
-  .shooter-game-ui {
-    animation: vibrate 0.1s infinite;
-  }
-`}</style>
+        .shooter-game-ui {
+          animation: vibrate 0.1s infinite;
+        }
+      `}</style>
 
       <main className="min-h-screen bg-[url('../assets/bg.png')] bg-cover bg-center relative overflow-hidden">
         <Navbar />
@@ -83,7 +82,6 @@ function Home() {
             Experience epic PvP battles, earn exclusive NFT rewards, and embrace
             gaming realism like never before.
           </p>
-          
         </div>
       </main>
       <div>
@@ -119,36 +117,36 @@ function Home() {
         <hr className="border-[#A3C60FE5]" />
       </div>
       <div>
+        <style jsx>{`
+          @keyframes wobble {
+            0%,
+            100% {
+              transform: translateX(0) rotate(0deg);
+            }
+            15% {
+              transform: translateX(-5px) rotate(-5deg);
+            }
+            30% {
+              transform: translateX(5px) rotate(5deg);
+            }
+            45% {
+              transform: translateX(-5px) rotate(-5deg);
+            }
+            60% {
+              transform: translateX(5px) rotate(5deg);
+            }
+            75% {
+              transform: translateX(-5px) rotate(-5deg);
+            }
+            90% {
+              transform: translateX(5px) rotate(5deg);
+            }
+          }
 
-<style jsx>{`
-  @keyframes wobble {
-    0%, 100% {
-      transform: translateX(0) rotate(0deg);
-    }
-    15% {
-      transform: translateX(-5px) rotate(-5deg);
-    }
-    30% {
-      transform: translateX(5px) rotate(5deg);
-    }
-    45% {
-      transform: translateX(-5px) rotate(-5deg);
-    }
-    60% {
-      transform: translateX(5px) rotate(5deg);
-    }
-    75% {
-      transform: translateX(-5px) rotate(-5deg);
-    }
-    90% {
-      transform: translateX(5px) rotate(5deg);
-    }
-  }
-
-  .wobble-effect-ui {
-    animation: wobble 1s infinite ease-in-out;
-  }
-`}</style>
+          .wobble-effect-ui {
+            animation: wobble 1s infinite ease-in-out;
+          }
+        `}</style>
 
         <div className="flex mt-20 justify-between  ">
           <img src={left} alt="left" className="left" />
@@ -168,68 +166,65 @@ function Home() {
         </div>
       </div>
       <div>
-        
+        <style jsx>{`
+          @keyframes zoomInOut {
+            0% {
+              transform: scale(1);
+            }
+            50% {
+              transform: scale(1.1);
+            }
+            100% {
+              transform: scale(1);
+            }
+          }
 
-      <style jsx>{`
-  @keyframes zoomInOut {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
+          .zoom-effect-ui {
+            animation: zoomInOut 3s infinite ease-in-out;
+          }
+        `}</style>
+        <style jsx>{`
+          .glowing-border {
+            position: relative;
+            border: 0.8px solid transparent;
+          }
 
-  .zoom-effect-ui {
-    animation: zoomInOut 3s infinite ease-in-out;
-  }
-`}</style>
-<style jsx>{`
-  .glowing-border {
-    position: relative;
-    border: 0.8px solid transparent;
-  }
+          .glowing-border::before,
+          .glowing-border::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-radius: inherit;
+            box-shadow: 0 0 20px 5px #c5f404;
+            animation: border-glow 2s linear infinite;
+          }
 
-  .glowing-border::before,
-  .glowing-border::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    border-radius: inherit;
-    box-shadow: 0 0 20px 5px #C5F404;
-    animation: border-glow 2s linear infinite;
-  }
+          .glowing-border::after {
+            filter: blur(10px);
+            opacity: 0.5;
+          }
 
-  .glowing-border::after {
-    filter: blur(10px);
-    opacity: 0.5;
-  }
-
-  @keyframes border-glow {
-    0% {
-      clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
-    }
-    25% {
-      clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
-    }
-    50% {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    }
-    75% {
-      clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-    }
-    100% {
-      clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-    }
-  }
-`}</style>
-
+          @keyframes border-glow {
+            0% {
+              clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+            }
+            25% {
+              clip-path: polygon(0 0, 100% 0, 100% 0%, 0 0%);
+            }
+            50% {
+              clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            75% {
+              clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+            }
+            100% {
+              clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+            }
+          }
+        `}</style>
 
         <div className="flex justify-center mt-10 py-10 gap-10 items-center">
           <div className="glowing-border text-center border-x-[0.8px] border-t-[0.2px] p-14 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center ">
@@ -252,8 +247,8 @@ function Home() {
             <img src={icon2} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-4xl font-bold">Blockchain Realism</p>
             <p className="w-96 text-center">
-              Enjoy seamless, lifelike gameplay powered by the Stellar chain. Every
-              move is secure, transparent, and part of a stunning visual
+              Enjoy seamless, lifelike gameplay powered by the Stellar chain.
+              Every move is secure, transparent, and part of a stunning visual
               experience.{" "}
             </p>
           </div>
@@ -281,7 +276,7 @@ function Home() {
             </p>{" "}
             <img src={icon5} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <div>
-              <Link href="/lobby">
+              <Link to="/lobby">
                 <img src={play} alt="play" className="play" />
               </Link>
             </div>
@@ -304,65 +299,71 @@ function Home() {
         </div>
       </div>
       <div>
-      <style jsx>{`
-        @keyframes yAxisMovement {
-          0% {
-            transform: translateY(0);
-            
+        <style jsx>{`
+          @keyframes yAxisMovement {
+            0% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-20px);
+            }
+            100% {
+              transform: translateY(0);
+            }
           }
-          50% {
-            transform: translateY(-20px);
-            
+
+          .y-axis-movement {
+            animation: yAxisMovement 3s infinite ease-in-out;
           }
-          100% {
-            transform: translateY(0);
+        `}</style>
+
+        <style jsx>{`
+          @keyframes circularMotion {
+            0% {
+              transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            }
+            25% {
+              transform: perspective(1000px) rotateX(10deg) rotateY(10deg);
+            }
+            50% {
+              transform: perspective(1000px) rotateX(0deg) rotateY(20deg);
+            }
+            75% {
+              transform: perspective(1000px) rotateX(-10deg) rotateY(10deg);
+            }
+            100% {
+              transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            }
           }
-        }
 
-        .y-axis-movement {
-          animation: yAxisMovement 3s infinite ease-in-out;
-        }
-      `}</style>
-
-<style jsx>{`
-  @keyframes circularMotion {
-    0% {
-      transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
-    }
-    25% {
-      transform: perspective(1000px) rotateX(10deg) rotateY(10deg);
-    }
-    50% {
-      transform: perspective(1000px) rotateX(0deg) rotateY(20deg);
-    }
-    75% {
-      transform: perspective(1000px) rotateX(-10deg) rotateY(10deg);
-    }
-    100% {
-      transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
-    }
-  }
-
-  .animate-card {
-    animation: circularMotion 5s infinite ease-in-out;
-  }
-`}</style>
-        <div  className="flex mt-48 justify-center py-10 gap-10 items-center">
-        <div className="flex flex-col items-center">
-          <img src={g1} alt="g1" className="absolute -mt-60 y-axis-movement" />
-          <div className="text-center border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center animate-card">
-            <p className="text-4xl w-60 text-center font-bold">
-              Choose Your Avatar
-            </p>
-            <p className="w-80 pt-4 text-center">
-              Select from diverse avatars with unique abilities to match your playstyle.
-            </p>
+          .animate-card {
+            animation: circularMotion 5s infinite ease-in-out;
+          }
+        `}</style>
+        <div className="flex mt-48 justify-center py-10 gap-10 items-center">
+          <div className="flex flex-col items-center">
+            <img
+              src={g1}
+              alt="g1"
+              className="absolute -mt-60 y-axis-movement"
+            />
+            <div className="text-center border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center animate-card">
+              <p className="text-4xl w-60 text-center font-bold">
+                Choose Your Avatar
+              </p>
+              <p className="w-80 pt-4 text-center">
+                Select from diverse avatars with unique abilities to match your
+                playstyle.
+              </p>
+            </div>
           </div>
-        </div>
-
 
           <div className="flex flex-col items-center">
-            <img src={g2} alt="g1" className="absolute -mt-60 y-axis-movement" />
+            <img
+              src={g2}
+              alt="g1"
+              className="absolute -mt-60 y-axis-movement"
+            />
             <div className="text-center   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-4xl w-60 text-center font-bold">
                 Countdown to Chaos{" "}
@@ -374,7 +375,11 @@ function Home() {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <img src={g3} alt="g1" className="absolute -mt-60 y-axis-movement" />
+            <img
+              src={g3}
+              alt="g1"
+              className="absolute -mt-60 y-axis-movement"
+            />
             <div className="text-center   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-4xl w-60 text-center font-bold">
                 Enter the Battle Arena{" "}
@@ -388,7 +393,11 @@ function Home() {
         </div>
         <div className="flex mt-40 justify-center py-10 gap-10 items-center">
           <div className="flex flex-col items-center">
-            <img src={g4} alt="g1" className="absolute -mt-60 y-axis-movement" />
+            <img
+              src={g4}
+              alt="g1"
+              className="absolute -mt-60 y-axis-movement"
+            />
             <div className="text-center   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-4xl w-60 text-center font-bold">
                 Battle for Supremacy{" "}
@@ -400,7 +409,11 @@ function Home() {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <img src={g5} alt="g1" className="absolute -mt-60 y-axis-movement" />
+            <img
+              src={g5}
+              alt="g1"
+              className="absolute -mt-60 y-axis-movement"
+            />
             <div className="text-center   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px]  p-14 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-4xl w-60 text-center font-bold">
                 Claim Your NFT Prize{" "}

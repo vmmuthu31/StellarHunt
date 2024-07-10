@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Stats, OrbitControls, Circle } from "@react-three/drei";
-import { Canvas, useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setMap, setTime } from "../../store/gameActions";
 import { Link } from "react-router-dom";
 
-var map_count = 0;
 function Lobby() {
   const map_path = [
     "https://blogger.googleusercontent.com/img/a/AVvXsEiIDKYobYMAxdl5gAtBoE7B8P9G8iB0AYJUfiA0kR0NubthcLBo_LyYjsajGpA0jr6B1mCVB0lG5ZhMnhFYjNtbY5CiE6PJYmlXaAv5-TZ9GFJjnNZhLCulC76CPvjJfPmfIq3_5bvh0U7N7g784SznhnU5qS_uaRzeL2RsDlx39RboomQP1eg_MmahpNY",
@@ -28,12 +24,10 @@ function Lobby() {
     dispatch(setMap(map_path[mapCount]));
   };
 
-  const gltf = useLoader(GLTFLoader, "./models/soldier.gltf");
-
   const map_names = ["pochinki", "pochinki", "Israel"];
 
   return (
-    <div className="bg-[url('https://blogger.googleusercontent.com/img/a/AVvXsEicOwCW7fWeZ9xLNlLeabY6YZaSndKriwzi7evh6saDDipcRL4_3PjstCbRj-XX8D4T94t_9_R9I7tFVTfp7cUkLDQ-KsxGkuLcTO5o2YjSbhx4P_l-ejYi1S_MjsOv_YVTYwve1iMn6LsmZiinZFCxxCCXOyoOITRutiSjyNkBwDUAML9ZHMgsILPAzTo')] min-h-screen  bg-no-repeat bg-cover">
+    <div className="bg-[url('https://blogger.googleusercontent.com/img/a/AVvXsEicOwCW7fWeZ9xLNlLeabY6YZaSndKriwzi7evh6saDDipcRL4_3PjstCbRj-XX8D4T94t_9_R9I7tFVTfp7cUkLDQ-KsxGkuLcTO5o2YjSbhx4P_l-ejYi1S_MjsOv_YVTYwve1iMn6LsmZiinZFCxxCCXOyoOITRutiSjyNkBwDUAML9ZHMgsILPAzTo')] min-h-screen bg-no-repeat bg-cover">
       <div className="flex items-center space-x-11 text-white text-xl mx-20 py-8">
         <div className="flex homeprofilebg px-3 py-2 items-center space-x-3">
           <img
@@ -60,7 +54,7 @@ function Lobby() {
           <p>200</p>
         </div>
       </div>
-      <div className="flex  text-white text-2xl font-semibold  justify-between mx-20">
+      <div className="flex text-white text-2xl font-semibold justify-between mx-20">
         <div>
           <div className="homebox mt-20 px-16 py-10">
             <div className="flex items-center space-x-5">
@@ -96,13 +90,9 @@ function Lobby() {
           </div>
         </div>
         <div className="root2">
-          <Canvas camera={{ fov: 75, position: [0, 1, 5] }} shadows>
-            <directionalLight position={[3.3, 1.0, 4.4]} castShadow />
-            <primitive object={gltf.scene} position={[0, 1, 0]} castShadow />
-            <OrbitControls target={[0, 1, 0]} />
-          </Canvas>
+          {/* Placeholder for the Canvas component */}
         </div>
-        <div className="mt-48 ">
+        <div className="mt-48">
           <div
             style={{
               display: "flex",
@@ -120,8 +110,8 @@ function Lobby() {
               />
               <p>Select Map</p>
             </div>
-            <div className="">
-              <img src={img_v} className="h-40  w-auto" alt="" />
+            <div>
+              <img src={img_v} className="h-40 w-auto" alt="" />
               <div
                 className="bg-black"
                 style={{
@@ -134,7 +124,7 @@ function Lobby() {
                 }}
               >
                 <button
-                  className="px-2  bg-[#2f2f2f]"
+                  className="px-2 bg-[#2f2f2f]"
                   onClick={() => {
                     if (mapCount < 2) {
                       image_set(1);
@@ -143,7 +133,7 @@ function Lobby() {
                 >
                   {">"}
                 </button>
-                <p className="text-center   bg-opacity-40 py-2  w-[68px]">
+                <p className="text-center bg-opacity-40 py-2 w-[68px]">
                   {map_names[mapCount]}
                 </p>
                 <button
@@ -193,7 +183,7 @@ function Lobby() {
           </div>
           <div className="flex justify-center">
             <Link
-              className="playbtm px-10 font-semibold  py-2 mt-5 text-xl text-black "
+              className="playbtm px-10 font-semibold py-2 mt-5 text-xl text-black"
               to="/game"
             >
               Play!!
