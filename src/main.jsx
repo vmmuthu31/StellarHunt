@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/lobby" exact element={<Lobby />} />
-            <Route path="/*" exact element={<App />} />
+            <Route path="/game" exact element={<App />} />{" "}
           </Routes>
         </Router>
       </React.StrictMode>
