@@ -36,9 +36,10 @@ body {
   font-family: "Handjet", sans-serif;
   font-weight: 700;
   letter-spacing: 8px;
-  font-size: 130px;
+  font-size: 80px;
+  margin-top: 20px;
   color: #c5f404;
-  z-index:2
+  z-index: 2;
 }
 
 .text-container {

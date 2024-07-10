@@ -65,14 +65,14 @@ function Navbar() {
           <Link to="/lobby">
             <button className="playnowbtn  wobble-effect-ui">Play Now!</button>{" "}
           </Link>
+          <button
+            className="bg-[#B9FF09] rounded-full text-3xl px-12 py-5  font-semibold text-black"
+            // onClick={waitlist}
+            style={{ cursor: "pointer" }}
+          >
+            Join Waitlist
+          </button>
         </div>
-        <button
-          className="playnowbtn"
-          // onClick={waitlist}
-          style={{ cursor: "pointer" }}
-        >
-          Join Waitlist
-        </button>
       </div>
     </div>
   );

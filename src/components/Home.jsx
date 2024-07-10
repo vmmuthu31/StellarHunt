@@ -151,7 +151,7 @@ function Home() {
         <div className="flex mt-20 justify-between  ">
           <img src={left} alt="left" className="left" />
           <div>
-            <p className="text-center hero2txt wobble-effect-ui">
+            <p className="text-center hero2txt ">
               CONQUER THE FUTURE OF GAMING ON THE STELLAR CHAIN!
             </p>
             <p className="w-[700px] text-[#D6D6D6] herodesc text-center">
