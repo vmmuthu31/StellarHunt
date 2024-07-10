@@ -5,7 +5,6 @@ import starsvg from "../assets/star.svg";
 import left from "../assets/left.svg";
 import right from "../assets/right.svg";
 import icon from "../assets/icon.svg";
-import animationData from "../assets/avatar.json";
 import icon1 from "../assets/icon1.svg";
 import icon2 from "../assets/icon2.svg";
 import icon3 from "../assets/icon3.svg";
@@ -13,17 +12,11 @@ import icon4 from "../assets/icon4.svg";
 import icon5 from "../assets/icon5.svg";
 import play from "../assets/play.svg";
 import g1 from "../assets/g1.svg";
-import avatar from '../assets/avatar.json';
-import timer from '../assets/timer.json';
-import trophy from '../assets/trophy.json';
-import battle from '../assets/battle.json';
-import nft from '../assets/nft.json';
 import g2 from "../assets/g2.svg";
 import g3 from "../assets/g3.svg";
 import g4 from "../assets/g4.png";
 import g5 from "../assets/g5.svg";
 import Link from "next/link";
-import Lottie from 'lottie-react';
 
 
 
