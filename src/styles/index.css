@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    top: 36%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.herobg {
+  position: absolute;
+  left: 30%;
+  top: 10%;
+  animation: slideInFromBottom 1s ease-out;
+  z-index: 1;
+}
+
+.herotxt {
+  font-family: "Handjet", sans-serif;
+  font-weight: 700;
+  letter-spacing: 8px;
+  font-size: 130px;
+  color: #c5f404;
+  z-index:2
+}
+
+.text-container {
+  position: absolute;
+  width: 100%;
+  top: 20%;
+  text-align: center;
+  z-index: 1; /* Ensure text is behind the image */
+}
+
+.additional-content {
+  position: absolute;
+  top: 70%;
+  right: 10%;
+  width: 340px;
+  z-index: 2;
+  text-align: right;
+}
+
+.highlight-text {
+  color: #c9fa00;
+  border: 1px solid #c9fa00;
+  padding: 1rem;
+  border-radius: 0.675rem;
+  font-size: 1.875rem;
+  margin-bottom: 1rem;
+}
+
+.description-text {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lobbyprof {
+  font-family: "Galindo", sans-serif;
+}
+
+.playnowbtn {
+  font-family: "Galindo", sans-serif;
+  font-weight: "extra-bold";
+  font-style: normal;
+  border: 1px solid #9fc610;
+  border-left-width: 0.5rem;
+  padding: 1rem 0.75rem;
+  margin-top: 0.5rem;
+  border-radius: 9999px;
+  font-size: 1.45rem;
+  width: 15rem;
+  text-align: center;
+  display: inline-block;
+}
+
+.hrtxt {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+@keyframes runningText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.running-text-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.running-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: runningText 20s linear infinite;
+}
+
+.hero2txt {
+  font-family: "Handjet", sans-serif;
+  font-weight: 700;
+  width: 800px;
+  font-size: 60px;
+  color: #c5f404;
+}
+
+.herodesctxt {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.card1 {
+  background: linear-gradient(
+    180deg,
+    rgba(197, 244, 4, 0.11) 0%,
+    rgba(115, 142, 2, 0) 100%
+  );
+  border-radius: 20px;
+  border-top-left-radius: 1px solid;
+  border-left: 1px solid #94a358;
+  opacity: 90%;
+}
+
+.card2 {
+  background: linear-gradient(
+    180deg,
+    rgba(201, 250, 0, 0.5) 0%,
+    rgba(119, 148, 0, 0) 100%
+  );
+  border-radius: 20px;
+  border-image-source: linear-gradient(
+    180deg,
+    rgba(197, 244, 4, 0.5) 0%,
+    rgba(115, 142, 2, 0) 100%
+  );
+}
+
+.playnow {
+  font-family: "Handjet", sans-serif;
+  font-weight: 800;
+  color: #c5f404;
+  letter-spacing: 2px;
+  font-size: 2.5rem;
+}
+
+.homebox {
+  border-radius: 20px;
+  border: 1px solid rgba(159, 198, 16, 0.26);
+  background: rgba(13, 13, 13, 0.74);
+}
+
+.mapbox {
+  border-radius: 6.25px;
+  border: 1.25px solid #9fc610;
+  background: rgba(0, 0, 0, 0.69);
+}
+
+.playbtm {
+  border-radius: 10px;
+  background: #9fc610;
+  box-shadow: 0px 0px 26.6px 9px rgba(20, 20, 21, 0.39) inset;
+}
