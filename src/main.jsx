@@ -7,8 +7,8 @@ import { store, persistor } from "../store/index.js";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Components/Home.jsx";
-import Lobby from "./Components/Lobby.jsx";
+import Home from "./components/Home.jsx";
+import Lobby from "./components/Lobby.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
