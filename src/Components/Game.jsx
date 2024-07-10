@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
+import { useSelector } from "react-redux";
 
 const Soldier = () => {
-  const { scene } = useGLTF("/path/to/soldier.glb");
+  const { scene } = useGLTF("models/soldie.gltf");
   return <primitive object={scene} />;
 };
 
@@ -13,7 +14,8 @@ const Map = () => {
 };
 
 const Game = ({ gameTime }) => {
-  const [timeLeft, setTimeLeft] = useState(gameTime * 60);
+  const { time, map } = useSelector((state) => state.game);
+  const [timeLeft, setTimeLeft] = useState(time);
   const [kills, setKills] = useState(0);
   const [hp, setHp] = useState(100);
 
