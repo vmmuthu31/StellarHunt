@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./components/Home.jsx";
 import Lobby from "./components/Lobby.jsx";
+import Game from "./components/Game.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/" exact element={<Home />} />
             <Route path="/lobby" exact element={<Lobby />} />
             <Route path="/game" exact element={<App />} />{" "}
+            <Route path="/match" exact element={<Game />} />{" "}
           </Routes>
         </Router>
       </React.StrictMode>
