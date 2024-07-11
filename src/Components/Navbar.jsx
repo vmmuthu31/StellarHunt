@@ -56,13 +56,13 @@ function Navbar() {
           <button className="playnowbtn">MarketPlace</button>
         </div>
         <img src={navicon} alt="logo" />
-        <div className="flex gap-10">
+        <div className="flex items-center gap-10">
           <Link href="/lobby">
             <button className="playnowbtn  wobble-effect-ui">Play Now!</button>{" "}
           </Link>
           <Link href="/Waitlist">
             <button
-              className="bg-[#B9FF09] rounded-full text-xl px-10    text-black"
+              className="bg-[#B9FF09] rounded-full text-xl px-10   py-3  text-black"
               style={{ cursor: "pointer" }}
             >
               Join Waitlist
