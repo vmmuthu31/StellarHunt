@@ -51,7 +51,6 @@ export const Leaderboard = () => {
   const playerAddress = "0x324298486F9b811eD5e062275a58363d1B2E93eB";
   console.log("add", playerAddress);
   const [playerdata, setPlayerdata] = useState("");
-  console.log("Player Name", playerdata[0]);
 
   const { stream, enableAudio, disableAudio, changeVideoSource } =
     useLocalAudio();

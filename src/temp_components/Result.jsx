@@ -23,8 +23,6 @@ const Result = () => {
           .filter((player) => player.name && player.name.trim() !== "")
           .map((player) => player.name);
 
-        console.log("Game player names:", playerNames);
-
         setPlayerNames(playerNames);
       })
       .catch((error) => console.error("Error fetching players:", error));
