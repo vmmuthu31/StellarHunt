@@ -3,6 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useState } from "react";
+import { Experience } from "./components/Experience";
+import { Leaderboard } from "./components/Leaderboard";
 
 function App() {
   const [downgradedPerformance, setDowngradedPerformance] = useState(false);
@@ -23,7 +25,9 @@ function App() {
           }}
         />
         <Suspense>
-          <Physics></Physics>
+          <Physics>
+            <Experience downgradedPerformance={downgradedPerformance} />
+          </Physics>
         </Suspense>
         {!downgradedPerformance && (
           <EffectComposer disableNormalPass>
@@ -31,6 +35,7 @@ function App() {
           </EffectComposer>
         )}
       </Canvas>
+      <Leaderboard />
     </div>
   );
 }

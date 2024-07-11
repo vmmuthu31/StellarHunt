@@ -3,7 +3,6 @@ import { useGraph } from "@react-three/fiber";
 import React, { useEffect, useMemo, useRef } from "react";
 import { Color, LoopOnce, MeshStandardMaterial } from "three";
 import { SkeletonUtils } from "three-stdlib";
-/models/;
 const WEAPONS = [
   "GrenadeLauncher",
   "AK",
@@ -31,9 +30,7 @@ export function CharacterSoldier({
   const group = useRef();
   const { scene, materials, animations } = useGLTF("/models/soldier.gltf");
 
-  // Skinned meshes cannot be re-used in threejs without cloning them
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
-  // useGraph creates two flat object collections for nodes and materials
   const { nodes } = useGraph(clone);
   const { actions } = useAnimations(animations, group);
 
@@ -47,13 +44,6 @@ export function CharacterSoldier({
     return () => actions[animation]?.fadeOut(0.2);
   }, [animation]);
 
-  console.log(actions);
-  console.log(localStorage.getItem("myData"));
-  localStorage.setItem("myData", "true");
-  localStorage.setItem("myData", "true");
-  localStorage.setItem("myData", "true");
-  localStorage.setItem("myData", "true");
-
   const playerColorMaterial = useMemo(
     () =>
       new MeshStandardMaterial({
@@ -61,12 +51,13 @@ export function CharacterSoldier({
       }),
     [color]
   );
+
   useEffect(() => {
     WEAPONS.forEach((wp) => {
       const isCurrentWeapon = wp === weapon;
       nodes[wp].visible = isCurrentWeapon;
       console.log(isCurrentWeapon, "working... change wepon");
-    }, []);
+    });
 
     nodes.Body.traverse((child) => {
       if (child.isMesh && child.material.name === "Character_Main") {
@@ -90,7 +81,7 @@ export function CharacterSoldier({
         child.castShadow = true;
       }
     });
-  }, [nodes, clone]);
+  }, [weapon, nodes, clone, playerColorMaterial]);
 
   return (
     <group {...props} dispose={null} ref={group}>

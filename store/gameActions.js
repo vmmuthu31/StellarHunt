@@ -11,3 +11,17 @@ export const setTime = (time) => {
     payload: time,
   };
 };
+
+export const setValue = (value) => {
+  return {
+    type: "SET_VALUE",
+    payload: value,
+  };
+};
+
+export const setGameid = (gameid) => {
+  return {
+    type: "SET_GAMEID",
+    payload: gameid,
+  };
+};

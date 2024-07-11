@@ -1,6 +1,8 @@
 const initialState = {
   map: null,
   time: 60,
+  value: null,
+  gameid: null,
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -14,6 +16,16 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         time: action.payload,
+      };
+    case "SET_VALUE":
+      return {
+        ...state,
+        value: action.payload,
+      };
+    case "SET_GAMEID":
+      return {
+        ...state,
+        gameid: action.payload,
       };
     default:
       return state;

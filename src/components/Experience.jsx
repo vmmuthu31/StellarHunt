@@ -10,15 +10,14 @@ import {
 import { useEffect, useState } from "react";
 import { Bullet } from "./Bullet";
 import { BulletHit } from "./BulletHit";
+import { CharacterController } from "./CharacterController";
 import { Map } from "./Map";
-import CharacterController from "./CharacterController";
 
 export const Experience = ({ downgradedPerformance = false }) => {
   const [players, setPlayers] = useState([]);
-
   const start = async () => {
     await insertCoin();
-    onPlayerJoin(async (state) => {
+    onPlayerJoin((state) => {
       const joystick = new Joystick(state, {
         type: "angular",
         buttons: [
@@ -26,27 +25,14 @@ export const Experience = ({ downgradedPerformance = false }) => {
           { id: "jump", label: "Jump" },
         ],
       });
+      const newPlayer = { state, joystick };
       state.setState("health", 100);
       state.setState("deaths", 0);
       state.setState("kills", 0);
-      const newPlayer = {
-        id: state.id,
-        state,
-        joystick,
-        health: 100,
-        deaths: 0,
-        kills: 0,
-      };
       setPlayers((players) => [...players, newPlayer]);
       state.onQuit(() => {
         setPlayers((players) => players.filter((p) => p.state.id !== state.id));
       });
-      const playerJoinedMessage = {
-        id: state.id,
-        health: 100,
-        deaths: 0,
-        kills: 0,
-      };
     });
   };
 
@@ -64,24 +50,42 @@ export const Experience = ({ downgradedPerformance = false }) => {
   const [networkHits, setNetworkHits] = useMultiplayerState("hits", []);
 
   const onFire = (bullet) => {
-    setBullets((bullets) => [...bullets, bullet]);
+    if (isHost()) {
+      setBullets((bullets) => [...bullets, bullet]);
+    } else {
+      setNetworkBullets((bullets) => [...bullets, bullet]);
+    }
   };
 
   const onHit = (bulletId, position) => {
-    setBullets((bullets) => bullets.filter((bullet) => bullet.id !== bulletId));
-    setHits((hits) => [...hits, { id: bulletId, position }]);
+    if (isHost()) {
+      setBullets((bullets) =>
+        bullets.filter((bullet) => bullet.id !== bulletId)
+      );
+      setHits((hits) => [...hits, { id: bulletId, position }]);
+    } else {
+      setNetworkHits((hits) => [...hits, { id: bulletId, position }]);
+    }
   };
 
   const onHitEnded = (hitId) => {
-    setHits((hits) => hits.filter((h) => h.id !== hitId));
+    if (isHost()) {
+      setHits((hits) => hits.filter((h) => h.id !== hitId));
+    } else {
+      setNetworkHits((hits) => hits.filter((h) => h.id !== hitId));
+    }
   };
 
   useEffect(() => {
-    setNetworkBullets(bullets);
+    if (isHost()) {
+      setNetworkBullets(bullets);
+    }
   }, [bullets]);
 
   useEffect(() => {
-    setNetworkHits(hits);
+    if (isHost()) {
+      setNetworkHits(hits);
+    }
   }, [hits]);
 
   const onKilled = (_victim, killer) => {
