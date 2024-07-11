@@ -1,5 +1,5 @@
 import navicon from "../assets/navicon.png";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 <style jsx>{`
   @keyframes wobble {
@@ -41,15 +41,11 @@ function Navbar() {
       });
     }
   };
-  // const waitlist = () => {
-  //   const router = useRouter();
-  //   router.push("/waitlist");
-  // };
 
   return (
     <div>
-      <div className="flex items-center justify-between md:px-32 md:pt-14">
-        <div className="flex gap-20">
+      <div className="flex items-center justify-between md:px-10 md:pt-10">
+        <div className="flex gap-10">
           <button
             className="playnowbtn"
             onClick={howitworks}
@@ -59,15 +55,13 @@ function Navbar() {
           </button>
           <button className="playnowbtn">MarketPlace</button>
         </div>
-
         <img src={navicon} alt="logo" />
-        <div className="flex gap-20">
-          <Link to="/lobby">
+        <div className="flex gap-10">
+          <Link href="/lobby">
             <button className="playnowbtn  wobble-effect-ui">Play Now!</button>{" "}
           </Link>
           <button
-            className="bg-[#B9FF09] rounded-full text-3xl px-12 py-5  font-semibold text-black"
-            // onClick={waitlist}
+            className="bg-[#B9FF09] rounded-full text-xl px-10    text-black"
             style={{ cursor: "pointer" }}
           >
             Join Waitlist

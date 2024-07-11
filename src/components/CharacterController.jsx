@@ -330,8 +330,10 @@ export const CharacterController = ({
 
     const playerWorldPos = vec3(rigidbody.current.translation());
 
-    if ((joystick.isPressed("jump") || movement.jump) && playerWorldPos.y < 2) {
-      setAnimation("Jump");
+    if (joystick.isPressed("jump") && playerWorldPos.y < 2) {
+      setAnimation("Run");
+      character.current.rotation.y = angle;
+
       const impulse = {
         x: Math.sin(angle) * MOVEMENT_SPEED * delta,
         y: JUMP_FORCE,
@@ -348,8 +350,7 @@ export const CharacterController = ({
         rigidbody.current.applyImpulse(impulse, true);
       }
     }
-
-    if (joystick.isPressed("fire") || movement.fire) {
+    if (joystick.isPressed("fire")) {
       setAnimation(
         joystick.isJoystickPressed() && angle ? "Run_Shoot" : "Idle_Shoot"
       );
@@ -487,7 +488,9 @@ export const CharacterController = ({
 
 const PlayerInfo = ({ state }) => {
   const health = state.health;
-  const name = state.profile.name;
+  const [playerdata, setPlayerdata] = useState("");
+
+  const name = playerdata[0];
   return (
     <Billboard position-y={2.5}>
       <Text position-y={0.36} fontSize={0.4}>

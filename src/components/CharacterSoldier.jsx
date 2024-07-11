@@ -28,7 +28,9 @@ export function CharacterSoldier({
 }) {
   console.log("the gun is : ", weapon, "from char");
   const group = useRef();
-  const { scene, materials, animations } = useGLTF("/models/soldier.gltf");
+  const { scene, materials, animations } = useGLTF(
+    "/models/Character_Soldier.gltf"
+  );
 
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes } = useGraph(clone);
@@ -131,4 +133,4 @@ export function CharacterSoldier({
   );
 }
 
-useGLTF.preload("/models/soldier.gltf");
+useGLTF.preload("/models/Character_Soldier.gltf");

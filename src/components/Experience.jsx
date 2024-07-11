@@ -33,6 +33,13 @@ export const Experience = ({ downgradedPerformance = false }) => {
       state.onQuit(() => {
         setPlayers((players) => players.filter((p) => p.state.id !== state.id));
       });
+      const playerJoinedMessage = {
+        id: state.id,
+        health: 100,
+        deaths: 0,
+        kills: 0,
+      };
+ 
     });
   };
 
