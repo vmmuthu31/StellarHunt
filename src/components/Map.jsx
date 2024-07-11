@@ -3,7 +3,7 @@ import { RigidBody } from "@react-three/rapier";
 import { useEffect } from "react";
 
 export const Map = () => {
-  const map = useGLTF("models/map.glb");
+  const map = useGLTF("models/map2.glb");
   useEffect(() => {
     map.scene.traverse((child) => {
       if (child.isMesh) {

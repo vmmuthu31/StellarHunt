@@ -31,7 +31,8 @@ const WEAPONS = [
   "Sniper",
   "Sniper_2",
 ];
-const CharacterController = ({
+
+export const CharacterController = ({
   state,
   joystick,
   userPlayer,
@@ -62,6 +63,7 @@ const CharacterController = ({
     const spawnPos = spawns[Math.floor(Math.random() * spawns.length)].position;
     rigidbody.current.setTranslation(spawnPos);
   };
+
   useEffect(() => {
     if (isHost()) {
       spawnRandomly();
@@ -105,13 +107,11 @@ const CharacterController = ({
       return;
     }
 
-    // Update player position based on joystick state
     const angle = joystick.angle();
     if (joystick.isJoystickPressed() && angle) {
       setAnimation("Run");
       character.current.rotation.y = angle;
 
-      // move character in its own direction
       const impulse = {
         x: Math.sin(angle) * MOVEMENT_SPEED * delta,
         y: 0,
@@ -128,7 +128,6 @@ const CharacterController = ({
       setAnimation("Run");
       character.current.rotation.y = angle;
 
-      // move character in its own direction
       const impulse = {
         x: Math.sin(angle) * MOVEMENT_SPEED * delta,
         y: JUMP_FORCE,
@@ -145,9 +144,7 @@ const CharacterController = ({
         rigidbody.current.applyImpulse(impulse, true);
       }
     }
-    // Check if fire button is pressed
     if (joystick.isPressed("fire")) {
-      // fire
       setAnimation(
         joystick.isJoystickPressed() && angle ? "Run_Shoot" : "Idle_Shoot"
       );
@@ -265,8 +262,9 @@ const CharacterController = ({
 
 const PlayerInfo = ({ state }) => {
   const health = state.health;
+  const [playerdata, setPlayerdata] = useState("");
 
-  const name = "Barfi";
+  const name = playerdata[0];
   return (
     <Billboard position-y={2.5}>
       <Text position-y={0.36} fontSize={0.4}>
@@ -318,5 +316,3 @@ const Crosshair = (props) => {
     </group>
   );
 };
-
-export default CharacterController;

@@ -10,8 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { Bullet } from "./Bullet";
 import { BulletHit } from "./BulletHit";
+import { CharacterController } from "./CharacterController";
 import { Map } from "./Map";
-import CharacterController from "./CharacterController";
 
 export const Experience = ({ downgradedPerformance = false }) => {
   const [players, setPlayers] = useState([]);
@@ -47,6 +47,10 @@ export const Experience = ({ downgradedPerformance = false }) => {
         deaths: 0,
         kills: 0,
       };
+      await sendMessage(
+        "system",
+        JSON.stringify({ type: "playerJoined", data: playerJoinedMessage })
+      );
     });
   };
 
