@@ -60,12 +60,14 @@ function Navbar() {
           <Link href="/lobby">
             <button className="playnowbtn  wobble-effect-ui">Play Now!</button>{" "}
           </Link>
-          <button
-            className="bg-[#B9FF09] rounded-full text-xl px-10    text-black"
-            style={{ cursor: "pointer" }}
-          >
-            Join Waitlist
-          </button>
+          <Link href="/Waitlist">
+            <button
+              className="bg-[#B9FF09] rounded-full text-xl px-10    text-black"
+              style={{ cursor: "pointer" }}
+            >
+              Join Waitlist
+            </button>
+          </Link>
         </div>
       </div>
     </div>
