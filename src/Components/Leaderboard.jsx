@@ -139,7 +139,7 @@ export const Leaderboard = () => {
 
   useEffect(() => {
     const addPlayerToGame = () => {
-      fetch("http://localhost:8000/auth/addPlayer", {
+      fetch("https://stellarhunt-be/auth/addPlayer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

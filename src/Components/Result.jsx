@@ -16,7 +16,7 @@ const Result = () => {
   const gameid = useSelector((state) => state.gameid.id);
   console.log("gameid", gameid);
   useEffect(() => {
-    fetch(`http://localhost:8000/auth/getGamePlayers/${gameid}`)
+    fetch(`https://stellarhunt-be/auth/getGamePlayers/${gameid}`)
       .then((response) => response.json())
       .then((players) => {
         const playerNames = players
