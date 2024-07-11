@@ -45,7 +45,7 @@ const WaitlistForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/api/waitlist", {
+      const response = await axios.post("https://stellarhunt-be/api/waitlist", {
         email,
         walletAddress,
       });
