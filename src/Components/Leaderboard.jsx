@@ -2,19 +2,15 @@ import React, { useState, useEffect } from "react";
 import { usePlayersList } from "playroomkit";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setSomeValue } from "../../store/yourSlice";
-import { setgameid } from "../../store/connection";
+import { setPlayerData } from "../../store/authslice";
+import { setgameid } from "../../store/authslice";
 
 import axios from "axios";
 
 import { useRoom } from "@huddle01/react/hooks";
 import { AccessToken, Role } from "@huddle01/server-sdk/auth";
 
-import {
-  useLocalVideo,
-  useLocalAudio,
-  usePeerIds,
-} from "@huddle01/react/hooks";
+import { useLocalAudio, usePeerIds } from "@huddle01/react/hooks";
 
 import RemotePeer from "./RemotePeer";
 
@@ -26,15 +22,18 @@ const getRoomIdFromURL = () => {
 
 export const Leaderboard = () => {
   const players = usePlayersList(true);
-  const [timer, setTimer] = useState(90);
+  const time = useSelector((state) => state.authslice.selectedTime);
+  const [timer, setTimer] = useState(time);
+
+  console.log(timer);
   const dispatch = useDispatch();
   useEffect(() => {
     setRoomId(getRoomIdFromURL());
   }, [window.location.hash]);
   const [roomId, setRoomId] = useState("");
-  const someValue = useSelector((state) => state.yourSlice.someValue);
+  const playername = "macha";
   const handleButtonClick = () => {
-    dispatch(setSomeValue(players));
+    dispatch(setPlayerData(players));
     dispatch(setgameid(roomId));
   };
 
@@ -53,18 +52,29 @@ export const Leaderboard = () => {
   const [playerdata, setPlayerdata] = useState("");
   console.log("Player Name", playerdata[0]);
 
-  const { stream, enableAudio, disableAudio, changeVideoSource } =
-    useLocalAudio();
+  const { enableAudio, disableAudio } = useLocalAudio();
 
-  const { joinRoom } = useRoom({
-    onJoin: () => {
-      alert("joined a room");
-      console.info("some stuff");
-    },
-  });
+  const joinRo = async ({ roomId, userType }) => {
+    const response = await axios.post(
+      "https://api.huddle01.com/api/v1/join-room-token",
+      {
+        roomId: "zfe-tivc-fuc",
+        userType: "host",
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "ak_oxmRVWyaH6FDZoPS",
+        },
+      }
+    );
+    console.log(response);
+    console.log("token", response.data.token);
+    setHuddleRoomID(response.data.token);
+  };
 
   const createRoomId = async () => {
-    const API_KEY = "5t0VTzU1IVTBm74AYyzWPRpRkCbv6M-r";
+    const API_KEY = "ak_oxmRVWyaH6FDZoPS";
     const response = await axios.post(
       "https://api.huddle01.com/api/v1/create-room",
       {
@@ -74,88 +84,40 @@ export const Leaderboard = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": "5t0VTzU1IVTBm74AYyzWPRpRkCbv6M-r",
+          "x-api-key": API_KEY,
         },
       }
     );
-    alert(response);
     console.log(response);
     console.log(response.data.data.roomId);
     setHuddleRoomID(response.data.data.roomId);
   };
-
-  const createAccessToken = async () => {
-    const accessToken = new AccessToken({
-      apiKey: "5t0VTzU1IVTBm74AYyzWPRpRkCbv6M-r",
-      roomId: "aoi-lqtl-ibs",
-      role: Role.HOST,
-      permissions: {
-        admin: true,
-        canConsume: true,
-        canProduce: true,
-        canProduceSources: {
-          cam: true,
-          mic: true,
-          screen: true,
-        },
-        canRecvData: true,
-        canSendData: true,
-        canUpdateMetadata: true,
-      },
-    });
-
-    const tempToken = await accessToken.toJwt();
-
-    console.log(tempToken, "temptoken");
-
-    alert(tempToken);
-
-    const res = await joinRoom({
-      roomId: "aoi-lqtl-ibs",
-      token: tempToken,
-    });
-    await enableAudio();
-
-    setHuddleToken(tempToken);
-
-    setJoinData((prev) => ({ ...prev, token: tempToken }));
-  };
-
+  const { joinRoom } = useRoom({
+    onJoin: () => {
+      alert("joined a room");
+      console.info("some stuff");
+    },
+  });
   const handleJoinRoom = async () => {
-    await createAccessToken();
+    await joinRo({
+      roomId: "zfe-tivc-fuc",
+      userType: "host",
+    });
+    console.log("connected");
     await joinRoom({
-      roomId: "aoi-lqtl-ibs",
+      roomId: "zfe-tivc-fuc",
       token: huddleToken,
     });
     await enableAudio();
 
     setMuted(true);
+    alert("You have joined the room");
   };
   const handleExitRoom = async () => {
     await disableAudio();
 
     setMuted(false);
   };
-
-  useEffect(() => {
-    const addPlayerToGame = () => {
-      fetch("https://stellarhunt-be/auth/addPlayer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          gameId: roomId,
-          userId: playerdata[4],
-          name: playerdata[0],
-        }),
-      })
-        .then((response) => response.text())
-        .then((data) => console.log(data))
-        .catch((error) => console.error("Error adding player:", error));
-    };
-    addPlayerToGame();
-  }, [playerdata, roomId]);
 
   const navigate = useNavigate();
 
@@ -177,7 +139,6 @@ export const Leaderboard = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       const storedData = localStorage.getItem("myData");
@@ -210,7 +171,6 @@ export const Leaderboard = () => {
       }
       if (minutes === 0 && remainingSeconds < 1) {
         localStorage.setItem("myData", "false");
-        localStorage.setItem("myData", "false");
         handleButtonClick();
         navigate("/result");
       }
@@ -226,25 +186,18 @@ export const Leaderboard = () => {
     }
   }, [playerdata]);
 
-  const updatedPlayers = players.map((player, index) => {
-    if (index === players.length - 1 && playerdata) {
-      console.log("Updating player name to:", playerdata[0]);
-      return {
-        ...player,
-        state: {
-          ...player.state,
-          profile: {
-            ...player.state.profile,
-            name: playerdata[0] || player.state.profile.name,
-          },
-        },
-      };
+  useEffect(() => {
+    const matchingPlayer = players.find(
+      (player) => player.state.profile?.name === playername
+    );
+    if (matchingPlayer) {
+      console.log("Matching player state:", matchingPlayer.state);
     } else {
-      return player;
+      console.log("No matching player found.");
     }
-  });
+  }, [players, playername]);
 
-  console.log("updated players array", updatedPlayers);
+  console.log("updated players array", players);
 
   return (
     <>
@@ -301,7 +254,7 @@ export const Leaderboard = () => {
           </div>
         </div>
 
-        {updatedPlayers.map((player) => (
+        {players.map((player) => (
           <div
             key={player.id}
             className="bg-opacity-60 backdrop-blur-sm flex items-center rounded-lg gap-2 p-2 min-w-[140px]"
@@ -350,7 +303,6 @@ export const Leaderboard = () => {
           />
         </svg>
       </button>
-          
     </>
   );
 };

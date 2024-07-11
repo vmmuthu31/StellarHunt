@@ -4,38 +4,19 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 
 const Result = () => {
-  const connection = useSelector((state) => state.connection);
   const [playerNames, setPlayerNames] = useState([]);
   const [team, setTeam] = useState([]);
-
-  console.log("Provider:", connection?.provider);
-  console.log("Address:", connection?.address);
-
-  const someValue = useSelector((state) => state.yourSlice.someValue);
-  const room = useSelector((state) => state.room);
-  const gameid = useSelector((state) => state.gameid.id);
-  console.log("gameid", gameid);
-  useEffect(() => {
-    fetch(`https://stellarhunt-be/auth/getGamePlayers/${gameid}`)
-      .then((response) => response.json())
-      .then((players) => {
-        const playerNames = players
-          .filter((player) => player.name && player.name.trim() !== "")
-          .map((player) => player.name);
-
-        console.log("Game player names:", playerNames);
-
-        setPlayerNames(playerNames);
-      })
-      .catch((error) => console.error("Error fetching players:", error));
-  }, [gameid]);
+  const playername = "macha";
+  const playerValue = useSelector((state) => state.authslice.playerdata);
+  const players = useSelector((state) => state.authslice.players);
+  const gameid = useSelector((state) => state.authslice.id);
 
   useEffect(() => {
-    const sortedTeam = someValue
+    const sortedTeam = playerValue
       .map((value, index) => ({
         rank: index + 1,
         name: value.state.profile.name,
-        handle: "lewishamilton",
+        handle: value.state.profile.name,
         img: value.state.profile.photo,
         kudos: value.state.kills,
         deaths: value.state.deaths,
@@ -44,7 +25,7 @@ const Result = () => {
       .sort((a, b) => b.kudos - a.kudos);
 
     setTeam(sortedTeam);
-  }, [someValue]);
+  }, [playerValue]);
   const [playerdata, setPlayerdata] = useState("");
 
   console.log("team", team);
@@ -84,17 +65,26 @@ const Result = () => {
 
   const [applyed, setApplyed] = useState(false);
   const [myrank, setrank] = useState(false);
-
+  useEffect(() => {
+    const matchingPlayer = players.find(
+      (player) => player.state.profile?.name === playername
+    );
+    if (matchingPlayer) {
+      console.log("Matching player state:", matchingPlayer.state);
+    } else {
+      console.log("No matching player found.");
+    }
+  }, [players, playername]);
   useEffect(() => {
     setApplyed(true);
-    var team = someValue.map((someValue, index) => {
+    var team = playerValue.map((playerValue, index) => {
       return {
         rank: index + 1,
-        name: someValue.state.profile.name,
-        handle: "lewishamilton",
-        img: someValue.state.profile.photo,
-        kudos: someValue.state.kills,
-        deaths: someValue.state.deaths,
+        name: playerValue.state.profile.name,
+        handle: playerValue.state.profile.name,
+        img: playerValue.state.profile.photo,
+        kudos: playerValue.state.kills,
+        deaths: playerValue.state.deaths,
         sent: 31,
       };
     });
@@ -209,12 +199,12 @@ const Result = () => {
                 <div className="u-display--flex u-justify--space-between">
                   <div className="u-text--left">
                     <div className="u-text--small">Room</div>
-                    <h1>{someValue[0]?.id}</h1>
+                    <h1>{playerValue[0]?.id}</h1>
                   </div>
                   <div className="u-text--right">
                     <div className="u-text--small">Total bedding</div>
                     <h2>
-                      {someValue.kills}/{someValue.deaths}
+                      {playerValue.kills}/{playerValue.deaths}
                     </h2>
                   </div>
                 </div>
@@ -232,7 +222,7 @@ const Result = () => {
                 <h3>Rank</h3>
                 <select className="c-select">
                   <option selected="selected">
-                    RoomId : {someValue[0]?.id}
+                    RoomId : {playerValue[0]?.id}
                   </option>
                 </select>
               </div>

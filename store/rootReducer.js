@@ -1,11 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import yourSliceReducer from "./yourSlice";
-import connectionReducer from "./connectionReducer";
-import gameidreducer from "./connection";
+import authslice from "./authslice";
+
 const rootReducer = combineReducers({
-  yourSlice: yourSliceReducer,
-  connection: connectionReducer,
-  gameid: gameidreducer,
+  authslice,
 });
 
 export default rootReducer;
