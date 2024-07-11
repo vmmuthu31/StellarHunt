@@ -47,10 +47,6 @@ export const Experience = ({ downgradedPerformance = false }) => {
         deaths: 0,
         kills: 0,
       };
-      await sendMessage(
-        "system",
-        JSON.stringify({ type: "playerJoined", data: playerJoinedMessage })
-      );
     });
   };
 

@@ -1,14 +1,14 @@
+import React, { useState, useEffect, useRef } from "react";
 import { Billboard, CameraControls, Text } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CapsuleCollider, RigidBody, vec3 } from "@react-three/rapier";
-import { isHost } from "playroomkit";
-import { useEffect, useRef, useState } from "react";
+import { myPlayer } from "playroomkit";
 import { CharacterSoldier } from "./CharacterSoldier";
 
 const MOVEMENT_SPEED = 202;
 const FIRE_RATE = 380;
 const JUMP_FORCE = 20;
-var i = 0;
+
 export const WEAPON_OFFSET = {
   x: -0.2,
   y: 1.4,
@@ -32,6 +32,100 @@ const WEAPONS = [
   "Sniper_2",
 ];
 
+const BULLET_PROPERTIES = {
+  GrenadeLauncher: {
+    damage: 35,
+    speed: 1.2,
+    size: 0.5,
+    range: 150,
+    spread: 0.05,
+    bullets: 8,
+  },
+  AK: {
+    damage: 10,
+    speed: 1.5,
+    size: 0.2,
+    range: 100,
+    spread: 0.01,
+    bullets: 1,
+  },
+  Knife_1: { damage: 25, speed: 1, size: 0.3, range: 5, spread: 0, bullets: 0 },
+  Knife_2: { damage: 30, speed: 1, size: 0.3, range: 5, spread: 0, bullets: 0 },
+  Pistol: {
+    damage: 15,
+    speed: 1.5,
+    size: 0.2,
+    range: 80,
+    spread: 0.02,
+    bullets: 1,
+  },
+  Revolver: {
+    damage: 20,
+    speed: 1.4,
+    size: 0.25,
+    range: 90,
+    spread: 0.01,
+    bullets: 1,
+  },
+  Revolver_Small: {
+    damage: 18,
+    speed: 1.4,
+    size: 0.2,
+    range: 80,
+    spread: 0.02,
+    bullets: 1,
+  },
+  RocketLauncher: {
+    damage: 50,
+    speed: 1,
+    size: 0.6,
+    range: 200,
+    spread: 0.05,
+    bullets: 5,
+  },
+  ShortCannon: {
+    damage: 40,
+    speed: 1,
+    size: 0.5,
+    range: 120,
+    spread: 0.05,
+    bullets: 1,
+  },
+  SMG: {
+    damage: 8,
+    speed: 1.6,
+    size: 0.15,
+    range: 90,
+    spread: 0.02,
+    bullets: 1,
+  },
+  Shotgun: {
+    damage: 6,
+    speed: 1.2,
+    size: 0.2,
+    range: 30,
+    spread: 0.2,
+    bullets: 3,
+  },
+  Shovel: { damage: 20, speed: 1, size: 0.35, range: 5, spread: 0, bullets: 1 },
+  Sniper: {
+    damage: 25,
+    speed: 2,
+    size: 0.4,
+    range: 300,
+    spread: 0,
+    bullets: 1,
+  },
+  Sniper_2: {
+    damage: 30,
+    speed: 2,
+    size: 0.4,
+    range: 300,
+    spread: 0,
+    bullets: 1,
+  },
+};
+
 export const CharacterController = ({
   state,
   joystick,
@@ -42,14 +136,25 @@ export const CharacterController = ({
   ...props
 }) => {
   const [weapon, setWeapon] = useState("AK");
-
+  const [weaponIndex, setWeaponIndex] = useState(1);
   const group = useRef();
   const character = useRef();
   const rigidbody = useRef();
+  let switchTimeout;
   const [animation, setAnimation] = useState("Idle");
   const lastShoot = useRef(0);
-
+  const [movement, setMovement] = useState({
+    forward: false,
+    backward: false,
+    left: false,
+    right: false,
+    fire: false,
+    jump: false,
+  });
   const scene = useThree((state) => state.scene);
+  const controls = useRef();
+  const directionalLight = useRef();
+
   const spawnRandomly = () => {
     const spawns = [];
     for (let i = 0; i < 1000; i++) {
@@ -65,10 +170,10 @@ export const CharacterController = ({
   };
 
   useEffect(() => {
-    if (isHost()) {
+    if (userPlayer) {
       spawnRandomly();
     }
-  }, []);
+  }, [userPlayer]);
 
   useEffect(() => {
     if (state.state.dead) {
@@ -86,7 +191,89 @@ export const CharacterController = ({
     }
   }, [state.state.health]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.repeat) return;
+      switch (event.code) {
+        case "KeyW":
+        case "ArrowUp":
+          setMovement((prev) => ({ ...prev, forward: true }));
+          break;
+        case "KeyS":
+        case "ArrowDown":
+          setMovement((prev) => ({ ...prev, backward: true }));
+          break;
+        case "KeyA":
+        case "ArrowLeft":
+          setMovement((prev) => ({ ...prev, left: true }));
+          break;
+        case "KeyD":
+        case "ArrowRight":
+          setMovement((prev) => ({ ...prev, right: true }));
+          break;
+        case "KeyF":
+          setMovement((prev) => ({ ...prev, fire: true }));
+          break;
+        case "Space":
+          setMovement((prev) => ({ ...prev, jump: true }));
+          break;
+        case "KeyQ":
+          console.log("press q working...!");
+          setWeaponIndex((prev) => (prev + 1) % WEAPONS.length);
+          break;
+        default:
+          break;
+      }
+    };
+
+    const handleKeyUp = (event) => {
+      switch (event.code) {
+        case "KeyW":
+        case "ArrowUp":
+          setMovement((prev) => ({ ...prev, forward: false }));
+          break;
+        case "KeyS":
+        case "ArrowDown":
+          setMovement((prev) => ({ ...prev, backward: false }));
+          break;
+        case "KeyA":
+        case "ArrowLeft":
+          setMovement((prev) => ({ ...prev, left: false }));
+          break;
+        case "KeyD":
+        case "ArrowRight":
+          setMovement((prev) => ({ ...prev, right: false }));
+          break;
+        case "KeyF":
+          setMovement((prev) => ({ ...prev, fire: false }));
+          break;
+        case "Space":
+          setMovement((prev) => ({ ...prev, jump: false }));
+          break;
+        default:
+          break;
+      }
+    };
+
+    if (userPlayer) {
+      window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("keyup", handleKeyUp);
+    }
+
+    return () => {
+      if (userPlayer) {
+        window.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener("keyup", handleKeyUp);
+      }
+    };
+  }, [userPlayer]);
+
+  useEffect(() => {
+    setWeapon(WEAPONS[weaponIndex]);
+  }, [weaponIndex]);
+
   useFrame((_, delta) => {
+    // CAMERA FOLLOW
     if (controls.current) {
       const cameraDistanceY = window.innerWidth < 1024 ? 16 : 20;
       const cameraDistanceZ = window.innerWidth < 1024 ? 12 : 16;
@@ -107,27 +294,56 @@ export const CharacterController = ({
       return;
     }
 
+    // Update player position based on joystick state
     const angle = joystick.angle();
-    if (joystick.isJoystickPressed() && angle) {
-      setAnimation("Run");
-      character.current.rotation.y = angle;
+    const movementAngle = () => {
+      if (movement.forward && movement.right) return (3 * Math.PI) / 4;
+      if (movement.forward && movement.left) return (5 * Math.PI) / 4;
+      if (movement.backward && movement.right) return Math.PI / 4;
+      if (movement.backward && movement.left) return -(Math.PI / 4);
+      if (movement.forward) return Math.PI;
+      if (movement.backward) return 0;
+      if (movement.left) return -(Math.PI / 2);
+      if (movement.right) return Math.PI / 2;
+      return null;
+    };
 
+    const applyMovement = (angle) => {
       const impulse = {
         x: Math.sin(angle) * MOVEMENT_SPEED * delta,
         y: 0,
         z: Math.cos(angle) * MOVEMENT_SPEED * delta,
       };
-
       rigidbody.current.applyImpulse(impulse, true);
+      character.current.rotation.y = angle;
+    };
+
+    if (joystick.isJoystickPressed() && angle) {
+      setAnimation("Run");
+      applyMovement(angle);
     } else {
-      setAnimation("Idle");
+      const moveAngle = movementAngle();
+      if (moveAngle !== null) {
+        setAnimation("Run");
+        applyMovement(moveAngle);
+      } else {
+        setAnimation("Idle");
+      }
     }
+
     const playerWorldPos = vec3(rigidbody.current.translation());
 
-    if (joystick.isPressed("jump") && playerWorldPos.y < 2) {
-      setAnimation("Run");
-      character.current.rotation.y = angle;
+    if (joystick.isPressed("switch")) {
+      if (!switchTimeout) {
+        switchTimeout = setTimeout(() => {
+          setWeaponIndex((prev) => (prev + 1) % WEAPONS.length);
+          switchTimeout = null; // Reset the timeout
+        }, 200); // Adjust the timeout duration as needed
+      }
+    }
 
+    if ((joystick.isPressed("jump") || movement.jump) && playerWorldPos.y < 2) {
+      setAnimation("Jump");
       const impulse = {
         x: Math.sin(angle) * MOVEMENT_SPEED * delta,
         y: JUMP_FORCE,
@@ -144,44 +360,69 @@ export const CharacterController = ({
         rigidbody.current.applyImpulse(impulse, true);
       }
     }
-    if (joystick.isPressed("fire")) {
+
+    // Check if fire button is pressed
+    if (joystick.isPressed("fire") || movement.fire) {
+      // fire
       setAnimation(
         joystick.isJoystickPressed() && angle ? "Run_Shoot" : "Idle_Shoot"
       );
-      if (isHost()) {
-        if (Date.now() - lastShoot.current > FIRE_RATE) {
-          lastShoot.current = Date.now();
+      if (Date.now() - lastShoot.current > FIRE_RATE) {
+        lastShoot.current = Date.now();
+        const bulletProps = BULLET_PROPERTIES[weapon] || {};
+        const {
+          damage = 10,
+          speed = 1,
+          size = 0.2,
+          range = 100,
+          spread = 0,
+          bullets = 1,
+        } = bulletProps;
+
+        for (let i = 0; i < bullets; i++) {
           const newBullet = {
             id: state.id + "-" + +new Date(),
             position: vec3(rigidbody.current.translation()),
-            angle,
+            angle:
+              character.current.rotation.y +
+              (spread ? (Math.random() - 0.5) * spread : 0),
             player: state.id,
+            damage: damage,
+            speed: speed,
+            size: size,
+            range: range,
           };
           onFire(newBullet);
         }
       }
     }
 
-    if (isHost()) {
+    // Sync animation state across the network
+    if (userPlayer) {
       state.setState("pos", rigidbody.current.translation());
-      const playerState = {
-        id: state.id,
-        position: rigidbody.current.translation(),
-        Angle: angle,
-        player: state.id,
-        xdirection: Math.sin(angle) * MOVEMENT_SPEED * delta,
-        ydirection: JUMP_FORCE,
-        zdirection: Math.cos(angle) * MOVEMENT_SPEED * delta,
-      };
+      state.setState("rotY", character.current.rotation.y);
+      state.setState("animation", animation);
+      state.setState("weapon", weapon); // Sync the weapon state
     } else {
       const pos = state.getState("pos");
+      const rotY = state.getState("rotY");
+      const networkAnimation = state.getState("animation");
+      const networkWeapon = state.getState("weapon"); // Get the weapon state
+
       if (pos) {
         rigidbody.current.setTranslation(pos);
       }
+      if (rotY !== undefined) {
+        character.current.rotation.y = rotY;
+      }
+      if (networkAnimation !== undefined) {
+        setAnimation(networkAnimation);
+      }
+      if (networkWeapon !== undefined) {
+        setWeapon(networkWeapon);
+      }
     }
   });
-  const controls = useRef();
-  const directionalLight = useRef();
 
   useEffect(() => {
     if (character.current && userPlayer) {
@@ -197,12 +438,11 @@ export const CharacterController = ({
         colliders={false}
         linearDamping={12}
         lockRotations
-        type={isHost() ? "dynamic" : "kinematicPosition"}
+        type={userPlayer ? "dynamic" : "kinematicPosition"}
         onIntersectionEnter={({ other }) => {
           if (
-            isHost() &&
             other.rigidBody.userData.type === "bullet" &&
-            state.state.health > 0
+            other.rigidBody.userData.player !== state.id
           ) {
             const newHealth =
               state.state.health - other.rigidBody.userData.damage;
@@ -262,9 +502,12 @@ export const CharacterController = ({
 
 const PlayerInfo = ({ state }) => {
   const health = state.health;
-  const [playerdata, setPlayerdata] = useState("");
-
-  const name = playerdata[0];
+  const name = state.profile.name;
+  const getColor = (health) => {
+    if (health > 60) return "green";
+    if (health > 40) return "orange";
+    return "red";
+  };
   return (
     <Billboard position-y={2.5}>
       <Text position-y={0.36} fontSize={0.4}>
@@ -277,7 +520,7 @@ const PlayerInfo = ({ state }) => {
       </mesh>
       <mesh scale-x={health / 100} position-x={-0.5 * (1 - health / 100)}>
         <planeGeometry args={[1, 0.2]} />
-        <meshBasicMaterial color="red" />
+        <meshBasicMaterial color={getColor(health)} />
       </mesh>
     </Billboard>
   );

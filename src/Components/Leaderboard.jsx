@@ -26,7 +26,7 @@ const getRoomIdFromURL = () => {
 
 export const Leaderboard = () => {
   const players = usePlayersList(true);
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(90);
   const dispatch = useDispatch();
   useEffect(() => {
     setRoomId(getRoomIdFromURL());
