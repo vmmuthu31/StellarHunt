@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
+const waitlistRoutes = require("./routes/waitlist");
 
 mongoose.connect(
   "mongodb+srv://vairamuthu:vairamuthu@cluster0.2qcddvx.mongodb.net/StellarHunt"
@@ -11,7 +12,7 @@ app.use(cors());
 
 const authRoutes = require("./routes/api");
 app.use("/auth", authRoutes);
-
+app.use("/api/waitlist", waitlistRoutes);
 app.get("/", (req, res) => {
   res.json({
     message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",

@@ -13,6 +13,7 @@ import StoreOptions from "./Components/StoreOption";
 import Result from "./Components/Result";
 
 import { HuddleClient, HuddleProvider } from "@huddle01/react";
+import WaitlistForm from "./Components/waitlist";
 
 const huddleClient = new HuddleClient({
   projectId: "64oMGEVTnuPWGxDY-MGTKlLQe7xLje4f",
@@ -38,6 +39,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/Car" exact element={<SlideApp data={"3"} />} />
             <Route path="/options" exact element={<Options />} />
             <Route path="/optstore" exact element={<StoreOptions />} />
+            <Route path="/Waitlist" exact element={<WaitlistForm />} />
           </Routes>
         </Provider>
       </Router>
