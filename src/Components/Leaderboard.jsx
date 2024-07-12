@@ -31,7 +31,8 @@ export const Leaderboard = () => {
     setRoomId(getRoomIdFromURL());
   }, [window.location.hash]);
   const [roomId, setRoomId] = useState("");
-  const playername = "macha";
+  const playerinfo = useSelector((state) => state.authslice.playerData);
+  const playername = playerinfo?.username;
   const handleButtonClick = () => {
     dispatch(setPlayerData(players));
     dispatch(setgameid(roomId));

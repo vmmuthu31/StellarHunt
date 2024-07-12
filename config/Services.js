@@ -8,13 +8,14 @@ import {
   nativeToScVal,
   Address,
 } from "@stellar/stellar-sdk";
+import { Buffer } from "buffer";
 
 import { userSignTransaction } from "./Freighter";
 
 let rpcUrl = "https://soroban-testnet.stellar.org";
 
 let contractAddress =
-  "CCZR36EXIXKBNV5WBD23B7LNXE62VUEMKVRGNGVTTN5VBSE73YNDU25T";
+  "CAVP2L7EW274SZ7KSSP3SEKXLZQUKEKI36BZPRJR4RQ2LQK4KZ2ZTWXC";
 
 const sourceKeypair = Keypair.fromSecret(
   "SDCSIPSBQ2RWO4B6EVGRBKFJSDSAKCHDOBGDW6RK5GJPLIOCPGB36XZ2"
@@ -30,7 +31,7 @@ const numberToU64 = (value) => {
   return nativeToScVal(value, { type: "u64" });
 };
 
-const vecToScValVec = (env, vec) => {
+const vecToScValVec = (vec) => {
   return nativeToScVal(vec, { type: "vec" });
 };
 
@@ -48,17 +49,17 @@ async function contractInt(caller, functName, values) {
   if (values == null) {
     buildTx = new TransactionBuilder(sourceAccount, params)
       .addOperation(contract.call(functName))
-      .setTimeout(30)
+      .setTimeout(20)
       .build();
   } else if (Array.isArray(values)) {
     buildTx = new TransactionBuilder(sourceAccount, params)
       .addOperation(contract.call(functName, ...values))
-      .setTimeout(30)
+      .setTimeout(20)
       .build();
   } else {
     buildTx = new TransactionBuilder(sourceAccount, params)
       .addOperation(contract.call(functName, values))
-      .setTimeout(30)
+      .setTimeout(20)
       .build();
   }
 
@@ -101,20 +102,20 @@ async function registerUser(caller, username, wallet) {
   let values = [usernameScVal, walletScVal];
 
   try {
-    await contractInt(caller, "register_user", values);
+    const result = await contractInt(caller, "register_user", values);
     console.log(
       `User ${username} with wallet ${wallet} registered successfully`
     );
+    return result;
   } catch (error) {
     console.log("User registration failed", error);
+    throw error;
   }
 }
 
 const isUserRegistered = async (wallet) => {
   try {
-    const server = new SorobanRpc.Server(
-      "https://soroban-testnet.stellar.org:443"
-    );
+    const server = new SorobanRpc.Server(rpcUrl);
     const sourceAccount = await server.getAccount(sourceKeypair.publicKey());
     const contract = new Contract(contractAddress);
 
@@ -123,7 +124,7 @@ const isUserRegistered = async (wallet) => {
       networkPassphrase: Networks.TESTNET,
     })
       .addOperation(contract.call("is_user_registered", accountToScVal(wallet)))
-      .setTimeout(30)
+      .setTimeout(20)
       .build();
 
     let preparedTransaction = await server.prepareTransaction(builtTransaction);
@@ -145,9 +146,7 @@ const isUserRegistered = async (wallet) => {
       if (getResponse.status === "SUCCESS") {
         let returnValue = getResponse.returnValue;
         console.log(`Transaction result: ${returnValue.value()}`);
-        if (!returnValue.value()) {
-          return false;
-        }
+        return returnValue.value();
       } else {
         throw `Transaction failed: ${getResponse.resultXdr}`;
       }
@@ -195,6 +194,132 @@ async function getLeaderboard(caller) {
   }
 }
 
+async function getUserData(wallet) {
+  try {
+    const server = new SorobanRpc.Server(rpcUrl);
+    const sourceAccount = await server.getAccount(sourceKeypair.publicKey());
+    const contract = new Contract(contractAddress);
+
+    // Build and sign the transaction
+    let builtTransaction = new TransactionBuilder(sourceAccount, {
+      fee: BASE_FEE,
+      networkPassphrase: Networks.TESTNET,
+    })
+      .addOperation(contract.call("get_user_data", accountToScVal(wallet)))
+      .setTimeout(20)
+      .build();
+
+    let preparedTransaction = await server.prepareTransaction(builtTransaction);
+    preparedTransaction.sign(sourceKeypair);
+
+    // Send the transaction
+    let sendResponse = await server.sendTransaction(preparedTransaction);
+    console.log(`Sent transaction: ${JSON.stringify(sendResponse)}`);
+
+    if (sendResponse.status === "PENDING") {
+      let getResponse = await server.getTransaction(sendResponse.hash);
+      while (getResponse.status === "NOT_FOUND") {
+        console.log("Waiting for transaction confirmation...");
+        getResponse = await server.getTransaction(sendResponse.hash);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+
+      console.log(`getTransaction response: ${JSON.stringify(getResponse)}`);
+
+      if (getResponse.status === "SUCCESS") {
+        let returnValue = parseUserData(getResponse.returnValue);
+        console.log(`Transaction result: ${returnValue}`);
+        console.log(`Transaction result: ${JSON.stringify(returnValue)}`);
+
+        // Log the actual returnValue structure for debugging
+        console.log("returnValue structure:", JSON.stringify(returnValue));
+
+        return returnValue;
+      } else {
+        throw `Transaction failed: ${getResponse.resultXdr}`;
+      }
+    } else {
+      throw sendResponse.errorResultXdr;
+    }
+  } catch (error) {
+    console.error("Error checking user registration:", error);
+  }
+}
+
+function parseUserData(result) {
+  if (!result || result._switch.name !== "scvMap") {
+    throw new Error("Invalid user structure");
+  }
+
+  let userData = {};
+  console.log("Parsing result:", JSON.stringify(result));
+
+  for (let entry of result._value) {
+    let key = entry._attributes.key._value.toString();
+    let value = entry._attributes.val;
+    console.log("Key:", key, "Value:", JSON.stringify(value));
+
+    switch (key) {
+      case "nfts":
+        userData.nfts = value._value
+          ? value._value.map((nft) => ({
+              image_url: nft._attributes.image_url
+                ? nft._attributes.image_url._value
+                : null,
+              hash: nft._attributes.hash ? nft._attributes.hash._value : null,
+              name: nft._attributes.name ? nft._attributes.name._value : null,
+            }))
+          : [];
+        break;
+      case "user":
+        if (value._switch.name === "scvMap") {
+          let userAttributes = {};
+          for (let userEntry of value._value) {
+            let userKey = userEntry._attributes.key._value.toString();
+            let userVal = userEntry._attributes.val;
+            switch (userKey) {
+              case "diamonds":
+                userAttributes.diamonds = userVal._value || 0;
+                break;
+              case "xp":
+                userAttributes.xp = userVal._value || 0;
+                break;
+              case "matches":
+                userAttributes.matches = userVal._value || 0;
+                break;
+              case "kills":
+                userAttributes.kills = userVal._value || 200;
+                break;
+              case "tokens":
+                if (userVal._switch.name === "scvI128" && userVal._attributes) {
+                  let hi = userVal._attributes.hi
+                    ? userVal._attributes.hi._value
+                    : 0;
+                  let lo = userVal._attributes.lo
+                    ? userVal._attributes.lo._value
+                    : 0;
+                  userAttributes.tokens = (BigInt(hi) << 64n) + BigInt(lo);
+                } else {
+                  userAttributes.tokens = "0";
+                }
+                break;
+              default:
+                break;
+            }
+          }
+          userData.user = userAttributes;
+        }
+        break;
+      case "username":
+        userData.username = value._value ? value._value.toString() : "";
+        break;
+      default:
+        break;
+    }
+  }
+  return userData;
+}
+
 export {
   registerUser,
   isUserRegistered,
@@ -202,4 +327,5 @@ export {
   getUserNFTs,
   contractInt,
   getLeaderboard,
+  getUserData,
 };
