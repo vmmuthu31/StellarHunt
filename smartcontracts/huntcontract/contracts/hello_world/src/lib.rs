@@ -202,8 +202,8 @@ mod test {
             hash: String::from_slice(&env, "hash2"),
             name: String::from_slice(&env, "NFT 2"),
         };
-        let new_nfts = Vec::from_array(&env, &[nft1, nft2]);
-        UserContract::update_user(env.clone(), wallet.clone(), 100, new_nfts, 50, 5);
+        let new_nfts = Vec::from_array(&env, &[nft1.clone(), nft2.clone()]);
+        UserContract::update_user(env.clone(), wallet.clone(), 100, new_nfts.clone(), 50, 5);
 
         let user: User = env.storage().instance().get(&wallet).unwrap();
         assert_eq!(user.diamonds, 100);
@@ -214,6 +214,8 @@ mod test {
 
         let user_nfts = UserContract::get_user_nfts(env.clone(), wallet.clone());
         assert_eq!(user_nfts.len(), 2);
+        assert_eq!(user_nfts[0], nft1);
+        assert_eq!(user_nfts[1], nft2);
 
         let leaderboard = UserContract::get_leaderboard(env.clone());
         let leaderboard_entry = leaderboard.get(wallet).unwrap();
