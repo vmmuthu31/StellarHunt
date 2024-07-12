@@ -24,6 +24,7 @@
     "@vitejs/plugin-basic-ssl": "^1.1.0",
     "axios": "^1.6.2",
     "buffer": "^6.0.3",
+    "canvas-confetti": "^1.9.3",
     "jotai": "^2.6.0",
     "leva": "^0.9.35",
     "next": "^14.0.4",

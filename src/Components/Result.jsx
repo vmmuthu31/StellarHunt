@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./../styles/result.css";
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import confetti from "canvas-confetti";
 
 const Result = () => {
   const [playerNames, setPlayerNames] = useState([]);
@@ -26,6 +27,7 @@ const Result = () => {
 
     setTeam(sortedTeam);
   }, [playerValue]);
+
   const [playerdata, setPlayerdata] = useState("");
 
   console.log("team", team);
@@ -65,6 +67,7 @@ const Result = () => {
 
   const [applyed, setApplyed] = useState(false);
   const [myrank, setrank] = useState(false);
+
   useEffect(() => {
     const matchingPlayer = players.find(
       (player) => player.state.profile?.name === playername
@@ -75,6 +78,7 @@ const Result = () => {
       console.log("No matching player found.");
     }
   }, [players, playername]);
+
   useEffect(() => {
     setApplyed(true);
     var team = playerValue.map((playerValue, index) => {
@@ -183,18 +187,32 @@ const Result = () => {
             <h3 class="u-mt--16">${winner.name}</h3>
             <span class="u-text--teal u-text--small">${winner.name}</span>
         `;
+
+    // Confetti effect on page load
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
   }, []);
+
   return (
     <>
-      <div className=" bg-[#101010]  text-white min-h-screen z-96 l-wrapper">
+      <div className="text-white min-h-screen l-wrapper">
+        <h1 className="text-center text-3xl font-bold my-4 glowing-text">
+          Leaderboard
+        </h1>
         <div className="c-header">
-          <button className="bg-red-500 px-5 py-3 text-white rounded-lg">
-            <Link href="/lobby">Lobby</Link>
+          <button className="bg-purple-600 px-5 py-3 rounded-lg r-wrapper lobby-button">
+            <Link href="/lobby" style={{ color: "#ffffff" }}>
+              Lobby
+            </Link>
           </button>
         </div>
+
         <div className="l-grid">
           <div className="l-grid__item l-grid__item--sticky">
-            <div className="c-card u-bg--light-gradient u-text--dark">
+            <div className="c-card u-bg--dark u-text--light glowing-card">
               <div className="c-card__body">
                 <div className="u-display--flex u-justify--space-between">
                   <div className="u-text--left">
@@ -202,7 +220,7 @@ const Result = () => {
                     <h1>{playerValue[0]?.id}</h1>
                   </div>
                   <div className="u-text--right">
-                    <div className="u-text--small">Total bedding</div>
+                    <div className="u-text--small">Prize Pool</div>
                     <h2>
                       {playerValue.kills}/{playerValue.deaths}
                     </h2>
@@ -210,22 +228,14 @@ const Result = () => {
                 </div>
               </div>
             </div>
-            <div className="c-card">
+            <div className="c-card glowing-card">
               <div className="c-card__body">
                 <div className="u-text--center" id="winner" />
               </div>
             </div>
           </div>
           <div className="l-grid__item">
-            <div className="c-card">
-              <div className="c-card__header">
-                <h3>Rank</h3>
-                <select className="c-select">
-                  <option selected="selected">
-                    RoomId : {playerValue[0]?.id}
-                  </option>
-                </select>
-              </div>
+            <div className="c-card glowing-card">
               <div className="c-card__body">
                 <ul className="c-list" id="list">
                   <li className="c-list__item">
@@ -247,6 +257,56 @@ const Result = () => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .lobby-button {
+          position: fixed;
+          top: 25px;
+          right: 25px;
+        }
+        .glowing-card {
+          position: relative;
+          border: 2px solid transparent;
+        }
+        .glowing-card::before {
+          content: "";
+          position: absolute;
+          top: -10px;
+          left: -10px;
+          right: -10px;
+          bottom: -10px;
+          background: radial-gradient(circle, violet 0%, transparent 60%);
+          border-radius: 10px;
+          animation: move-glow 3s infinite linear;
+          z-index: -1;
+        }
+        @keyframes move-glow {
+          0% {
+            transform: translateX(0) translateY(0);
+          }
+          50% {
+            transform: translateX(20px) translateY(20px);
+          }
+          100% {
+            transform: translateX(0) translateY(0);
+          }
+        }
+        .glowing-text {
+          animation: text-glow 1.5s infinite alternate;
+        }
+        @keyframes text-glow {
+          from {
+            text-shadow: 0 0 10px #9333ea, 0 0 20px #9333ea, 0 0 30px #9333ea,
+              0 0 40px #9333ea, 0 0 50px #9333ea, 0 0 60px #9333ea,
+              0 0 70px #9333ea;
+          }
+          to {
+            text-shadow: 0 0 20px #9333ea, 0 0 30px #9333ea, 0 0 40px #9333ea,
+              0 0 50px #9333ea, 0 0 60px #9333ea, 0 0 70px #9333ea,
+              0 0 80px #9333ea;
+          }
+        }
+      `}</style>
     </>
   );
 };
