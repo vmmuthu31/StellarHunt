@@ -14,6 +14,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../store/store";
 import { HuddleClient, HuddleProvider } from "@huddle01/react";
 import WaitlistForm from "./Components/waitlist";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 const huddleClient = new HuddleClient({
   projectId: "yn1GSFecK63Bm7pRiiuBuUUQQhWmpJM3",
@@ -35,8 +36,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Routes>
                   <Route path="/" exact element={<Home />} />
                   <Route path="/lobby" exact element={<Lobby />} />
-                  <Route path="/game" exact element={<App />} />
-                  <Route path="/result" exact element={<Result />} />
+                  <Route
+                    path="/game"
+                    exact
+                    element={<ProtectedRoute element={<App />} />}
+                  />
+                  <Route
+                    path="/result"
+                    exact
+                    element={<ProtectedRoute element={<Result />} />}
+                  />
                   <Route
                     path="/Character"
                     exact
