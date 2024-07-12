@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import herobg from "../assets/hero-bg.svg";
 import starsvg from "../assets/star.svg";
@@ -17,6 +17,9 @@ import g3 from "../assets/g3.svg";
 import g4 from "../assets/g4.png";
 import g5 from "../assets/g5.svg";
 import Link from "next/link";
+import videoSrc from "../assets/stellarhunt.mp4";
+import { useDispatch, useSelector } from "react-redux";
+import { setVediostate } from "../../store/authslice";
 
 const textStyle = {
   fontSize: "2.5rem",
@@ -39,7 +42,26 @@ const glowKeyframes = `
     }
   }
 `;
+
 function Home() {
+  const [showVideo, setShowVideo] = useState(false);
+  const dispatch = useDispatch();
+  const hasVisited = useSelector((state) => state.authslice.vediostate);
+  useEffect(() => {
+    if (!hasVisited) {
+      setShowVideo(true);
+      dispatch(setVediostate(true));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (showVideo) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [showVideo]);
+
   return (
     <div className="">
       <style jsx>{`
@@ -64,7 +86,38 @@ function Home() {
         .shooter-game-ui {
           animation: vibrate 0.1s infinite;
         }
+
+        .video-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+        }
+
+        .full-screen-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       `}</style>
+
+      {showVideo && (
+        <div className="video-overlay">
+          <video
+            src={videoSrc}
+            autoPlay
+            className="full-screen-video"
+            muted
+            onEnded={() => setShowVideo(false)}
+          />
+        </div>
+      )}
 
       <main className="min-h-screen bg-[url('./bg.png')] bg-cover bg-center relative overflow-hidden">
         <Navbar />
@@ -148,7 +201,7 @@ function Home() {
           }
         `}</style>
 
-        <div className="flex mt-20 justify-between  ">
+        <div className="flex mt-20 justify-between">
           <img src={left} alt="left" className="left" />
           <div>
             <p className="text-center hero2txt ">
@@ -235,7 +288,7 @@ function Home() {
               Outsmart and conquer your opponents to rise to the top.
             </p>
           </div>
-          <div className="text-center  w-[400px] glowing-border  border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center">
+          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center">
             <img src={icon1} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Exclusive NFT Rewards</p>
             <p className="text-lg text-center">
@@ -243,7 +296,7 @@ function Home() {
               trade these digital assets to enhance your in-game legacy.{" "}
             </p>
           </div>
-          <div className="text-center w-[400px]  glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center">
+          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center">
             <img src={icon2} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Blockchain Realism</p>
             <p className="text-lg text-center">
@@ -254,7 +307,7 @@ function Home() {
           </div>
         </div>
         <div className="flex mt-2 justify-center py-10 gap-10 items-center">
-          <div className="text-center glowing-border  w-[400px]  border-x-[0.8px] border-t-[0.2px] p-10  rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center">
+          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center">
             <img src={icon3} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Community-driven Evolution</p>
             <p className="text-lg text-center">
@@ -262,7 +315,7 @@ function Home() {
               Join events and collaborate with other players.
             </p>
           </div>
-          <div className="text-center glowing-border w-[400px]  border-x-[0.8px] border-t-[0.2px] p-10   border-[#C5F404] card1 flex flex-col gap-5 items-center">
+          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#C5F404] card1 flex flex-col gap-5 items-center">
             <img src={icon4} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Real-world </p>
             <p className="text-lg text-center">
@@ -270,7 +323,7 @@ function Home() {
               real-world rewards linked to your in-game achievements.{" "}
             </p>
           </div>
-          <div className="text-center glowing-border border-x-[0.8px] border-t-[0.2px] p-10  rounded-2xl border-[#C5F404] card2 flex flex-col gap-5 items-center">
+          <div className="text-center glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#C5F404] card2 flex flex-col gap-5 items-center">
             <p className="text-xl w-[240px] font-bold">
               Interested in PvP thrills with unique avatars and abilities?
             </p>{" "}

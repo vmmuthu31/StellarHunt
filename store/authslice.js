@@ -8,6 +8,7 @@ const authslice = createSlice({
     selectedTime: 60,
     playername: null,
     id: null,
+    vediostate: false,
   },
   reducers: {
     setPlayerData: (state, action) => {
@@ -26,9 +27,18 @@ const authslice = createSlice({
     setPlayername: (state, action) => {
       state.playername = action.payload;
     },
+    setVediostate: (state, action) => {
+      state.vediostate = action.payload;
+    },
   },
 });
 
-export const { setTimer, setgameid, setPlayername, setPlayers, setPlayerData } =
-  authslice.actions;
+export const {
+  setTimer,
+  setgameid,
+  setPlayername,
+  setPlayers,
+  setPlayerData,
+  setVediostate,
+} = authslice.actions;
 export default authslice.reducer;
