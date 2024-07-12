@@ -14,7 +14,7 @@ import { userSignTransaction } from "./Freighter";
 let rpcUrl = "https://soroban-testnet.stellar.org";
 
 let contractAddress =
-  "CCONHDHONHBZBDJAQYVJJZ2LCNUO6WVGORCIZPJONCPJJTMV6DL7JDSC";
+  "CCZR36EXIXKBNV5WBD23B7LNXE62VUEMKVRGNGVTTN5VBSE73YNDU25T";
 
 const sourceKeypair = Keypair.fromSecret(
   "SDCSIPSBQ2RWO4B6EVGRBKFJSDSAKCHDOBGDW6RK5GJPLIOCPGB36XZ2"
