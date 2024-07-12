@@ -186,69 +186,117 @@ const Result = () => {
   }, []);
   return (
     <>
-      <div className=" bg-[#101010]  text-white min-h-screen z-96 l-wrapper">
-        <div className="c-header">
-          <button className="bg-red-500 px-5 py-3 text-white rounded-lg">
-            <Link href="/lobby">Lobby</Link>
-          </button>
-        </div>
-        <div className="l-grid">
-          <div className="l-grid__item l-grid__item--sticky">
-            <div className="c-card u-bg--light-gradient u-text--dark">
-              <div className="c-card__body">
-                <div className="u-display--flex u-justify--space-between">
-                  <div className="u-text--left">
-                    <div className="u-text--small">Room</div>
-                    <h1>{playerValue[0]?.id}</h1>
-                  </div>
-                  <div className="u-text--right">
-                    <div className="u-text--small">Total bedding</div>
-                    <h2>
-                      {playerValue.kills}/{playerValue.deaths}
-                    </h2>
-                  </div>
-                </div>
-              </div>
+        <div className="text-white min-h-screen l-wrapper">
+            <h1 className="text-center text-3xl font-bold my-4 glowing-text">Leaderboard</h1>
+            <div className="c-header">
+                <button className="bg-purple-600 px-5 py-3 rounded-lg r-wrapper lobby-button">
+                    <Link href="/lobby" style={{ color: '#ffffff' }}>Lobby</Link>
+                </button>
             </div>
-            <div className="c-card">
-              <div className="c-card__body">
-                <div className="u-text--center" id="winner" />
-              </div>
-            </div>
-          </div>
-          <div className="l-grid__item">
-            <div className="c-card">
-              <div className="c-card__header">
-                <h3>Rank</h3>
-                <select className="c-select">
-                  <option selected="selected">
-                    RoomId : {playerValue[0]?.id}
-                  </option>
-                </select>
-              </div>
-              <div className="c-card__body">
-                <ul className="c-list" id="list">
-                  <li className="c-list__item">
-                    <div className="c-list__grid">
-                      <div className="u-text--left u-text--small u-text--medium">
-                        Rank
-                      </div>
-                      <div className="u-text--left u-text--small u-text--medium">
-                        Name
-                      </div>
-                      <div className="u-text--right u-text--small u-text--medium">
-                        # Kills/Deaths
-                      </div>
+
+            <div className="l-grid">
+                <div className="l-grid__item l-grid__item--sticky">
+                    <div className="c-card u-bg--dark u-text--light glowing-card">
+                        <div className="c-card__body">
+                            <div className="u-display--flex u-justify--space-between">
+                                <div className="u-text--left">
+                                    <div className="u-text--small">Room</div>
+                                    <h1>{playerValue[0]?.id}</h1>
+                                </div>
+                                <div className="u-text--right">
+                                    <div className="u-text--small">Prize Pool</div>
+                                    <h2>
+                                        {playerValue.kills}/{playerValue.deaths}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </li>
-                </ul>
-              </div>
+                    <div className="c-card glowing-card">
+                        <div className="c-card__body">
+                            <div className="u-text--center" id="winner" />
+                        </div>
+                    </div>
+                </div>
+                <div className="l-grid__item">
+                    <div className="c-card glowing-card">
+                        <div className="c-card__header">
+                            <h3>Rank</h3>
+                            <select className="c-select">
+                                <option selected="selected">
+                                    RoomId : {playerValue[0]?.id}
+                                </option>
+                            </select>
+                        </div>
+                        <div className="c-card__body">
+                            <ul className="c-list" id="list">
+                                <li className="c-list__item">
+                                    <div className="c-list__grid">
+                                        <div className="u-text--left u-text--small u-text--medium">
+                                            Rank
+                                        </div>
+                                        <div className="u-text--left u-text--small u-text--medium">
+                                            Name
+                                        </div>
+                                        <div className="u-text--right u-text--small u-text--medium">
+                                            # Kills/Deaths
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+
+        <style jsx>{`
+            .lobby-button {
+                position: fixed;
+                top: 25px;
+                right: 25px;
+            }
+            .glowing-card {
+                position: relative;
+                border: 2px solid transparent;
+            }
+            .glowing-card::before {
+                content: '';
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                right: -10px;
+                bottom: -10px;
+                background: radial-gradient(circle, violet 0%, transparent 60%);
+                border-radius: 10px;
+                animation: move-glow 3s infinite linear;
+                z-index: -1;
+            }
+            @keyframes move-glow {
+                0% {
+                    transform: translateX(0) translateY(0);
+                }
+                50% {
+                    transform: translateX(20px) translateY(20px);
+                }
+                100% {
+                    transform: translateX(0) translateY(0);
+                }
+            }
+            .glowing-text {
+                animation: text-glow 1.5s infinite alternate;
+            }
+            @keyframes text-glow {
+                from {
+                    text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
+                }
+                to {
+                    text-shadow: 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff, 0 0 80px #ff00ff;
+                }
+            }
+        `}</style>
     </>
-  );
+);
 };
 
 export default Result;
