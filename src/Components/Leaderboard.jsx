@@ -51,31 +51,11 @@ export const Leaderboard = () => {
   const playerAddress = "0x324298486F9b811eD5e062275a58363d1B2E93eB";
   console.log("add", playerAddress);
   const [playerdata, setPlayerdata] = useState("");
-  console.log("Player Name", playerdata[0]);
+  console.log("Player Name", playername);
 
   const { enableAudio, disableAudio } = useLocalAudio();
 
-  const joinRo = async ({ roomId, userType }) => {
-    const response = await axios.post(
-      "https://api.huddle01.com/api/v1/join-room-token",
-      {
-        roomId: "zfe-tivc-fuc",
-        userType: "host",
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": "ak_oxmRVWyaH6FDZoPS",
-        },
-      }
-    );
-    console.log(response);
-    console.log("token", response.data.token);
-    setHuddleRoomID(response.data.token);
-  };
-
   const createRoomId = async () => {
-    const API_KEY = "ak_oxmRVWyaH6FDZoPS";
     const response = await axios.post(
       "https://api.huddle01.com/api/v1/create-room",
       {
@@ -85,35 +65,54 @@ export const Leaderboard = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": API_KEY,
+          "x-api-key": "ak_oxmRVWyaH6FDZoPS",
         },
       }
     );
-    console.log(response);
-    console.log(response.data.data.roomId);
-    setHuddleRoomID(response.data.data.roomId);
+    console.log("respone of create room", response);
+    console.log("create", response.data.data.roomId);
+    return response.data.data.roomId;
   };
+  const handleJoinRoom = async () => {
+    const roomid = await createRoomId();
+    const accessToken = new AccessToken({
+      apiKey: "ak_oxmRVWyaH6FDZoPS",
+      roomId: "xpq-dfgv-cpp",
+      role: Role.HOST,
+      permissions: {
+        admin: true,
+        canConsume: true,
+        canProduce: true,
+        canProduceSources: {
+          cam: true,
+          mic: true,
+          screen: true,
+        },
+        canRecvData: true,
+        canSendData: true,
+        canUpdateMetadata: true,
+      },
+    });
+
+    const tempToken = await accessToken.toJwt();
+
+    console.log(tempToken, "temptoken");
+
+    const res = await joinRoom({
+      roomId: roomid,
+      token: tempToken,
+    });
+    console.log("res", res);
+    await enableAudio();
+    setMuted(true);
+  };
+
   const { joinRoom } = useRoom({
     onJoin: () => {
-      alert("joined a room");
-      console.info("some stuff");
+      console.info("Joined the room");
     },
   });
-  const handleJoinRoom = async () => {
-    await joinRo({
-      roomId: "zfe-tivc-fuc",
-      userType: "host",
-    });
-    console.log("connected");
-    await joinRoom({
-      roomId: "zfe-tivc-fuc",
-      token: huddleToken,
-    });
-    await enableAudio();
 
-    setMuted(true);
-    alert("You have joined the room");
-  };
   const handleExitRoom = async () => {
     await disableAudio();
 
@@ -180,12 +179,6 @@ export const Leaderboard = () => {
       remainingSeconds
     ).padStart(2, "0")}`;
   };
-
-  useEffect(() => {
-    if (playerdata) {
-      console.log("playerdata[0] from blockchain:", playerdata[0]);
-    }
-  }, [playerdata]);
 
   useEffect(() => {
     const matchingPlayer = players.find(
