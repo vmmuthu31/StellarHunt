@@ -71,7 +71,7 @@ function Navbar() {
           </Link>
           <Link href="/Waitlist">
             <button
-              className="bg-[#fcd928] rounded-full text-xl px-10  py-3  text-black"
+              className="bg-[#c9fa00] rounded-full text-xl px-10  py-3  text-black"
               style={{ cursor: "pointer" }}
             >
               Join Waitlist

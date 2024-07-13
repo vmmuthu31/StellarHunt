@@ -84,7 +84,7 @@ function Home() {
         }
 
         .shooter-game-ui {
-          animation: vibrate 0.1s infinite;
+          animation: vibrate 0.5s infinite;
         }
 
         .video-overlay {
@@ -138,36 +138,36 @@ function Home() {
         </div>
       </main>
       <div>
-        <hr className="border-[#fcd928]" />
+        <hr className="border-[#c9fa00]" />
         <div className="running-text-container">
           <div className="running-text flex items-center">
-            <span className="text-[#fcd928] hrtxt text-3xl mr-2">
+            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
               Experience the Future of Gaming on the Stellar Chain!
             </span>
             <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#fcd928] hrtxt text-3xl mr-2">
+            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
               Dynamic Challenges Await – Are You Ready to Conquer?
             </span>
             <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#fcd928] hrtxt text-3xl mr-2">
+            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
               Join Now and Prove Your Skills!
             </span>
             <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#fcd928] hrtxt text-3xl mr-2">
+            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
               Experience the Future of Gaming on the Stellar Chain!
             </span>
             <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#fcd928] hrtxt text-3xl mr-2">
+            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
               Dynamic Challenges Await – Are You Ready to Conquer?
             </span>
             <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#fcd928] hrtxt text-3xl mr-2">
+            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
               Join Now and Prove Your Skills!
             </span>
             <img src={starsvg} alt="star" className="inline-block mr-2" />
           </div>
         </div>
-        <hr className="border-[#fcd928]" />
+        <hr className="border-[#c9fa00]" />
       </div>
       <div>
         <style jsx>{`
@@ -251,7 +251,7 @@ function Home() {
             top: 0;
             left: 0;
             border-radius: inherit;
-            box-shadow: 0 0 20px 5px #fcd928;
+            box-shadow: 0 0 20px 5px #c9fa00;
             animation: border-glow 2s linear infinite;
           }
 
@@ -280,7 +280,7 @@ function Home() {
         `}</style>
 
         <div className="flex justify-center mt-10 py-10 gap-10 items-center">
-          <div className="glowing-border w-[400px] text-center border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center ">
+          <div className="glowing-border w-[400px] text-center border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center ">
             <img src={icon} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Epic PvP Thrills</p>
             <p className="text-lg text-center">
@@ -288,7 +288,7 @@ function Home() {
               Outsmart and conquer your opponents to rise to the top.
             </p>
           </div>
-          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center">
+          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon1} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Exclusive NFT Rewards</p>
             <p className="text-lg text-center">
@@ -296,7 +296,7 @@ function Home() {
               trade these digital assets to enhance your in-game legacy.{" "}
             </p>
           </div>
-          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center">
+          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon2} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Blockchain Realism</p>
             <p className="text-lg text-center">
@@ -307,7 +307,7 @@ function Home() {
           </div>
         </div>
         <div className="flex mt-2 justify-center py-10 gap-10 items-center">
-          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center">
+          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon3} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Community-driven Evolution</p>
             <p className="text-lg text-center">
@@ -315,7 +315,7 @@ function Home() {
               Join events and collaborate with other players.
             </p>
           </div>
-          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center">
+          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon4} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Real-world </p>
             <p className="text-lg text-center">
@@ -323,7 +323,7 @@ function Home() {
               real-world rewards linked to your in-game achievements.{" "}
             </p>
           </div>
-          <div className="text-center glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#fcd928] card2 flex flex-col gap-5 items-center">
+          <div className="text-center glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card2 flex flex-col gap-5 items-center">
             <p className="text-xl w-[240px] font-bold">
               Interested in PvP thrills with unique avatars and abilities?
             </p>{" "}
@@ -400,7 +400,7 @@ function Home() {
               alt="g1"
               className="absolute -mt-40 y-axis-movement"
             />
-            <div className="text-center w-80 border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center animate-card">
+            <div className="text-center w-80 border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-xl w-60 text-center font-bold">
                 Choose Your Avatar
               </p>
@@ -417,7 +417,7 @@ function Home() {
               alt="g1"
               className="absolute -mt-40 y-axis-movement"
             />
-            <div className="text-center w-80  border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center animate-card">
+            <div className="text-center w-80  border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-xl w-60 text-center font-bold">
                 Countdown to Chaos{" "}
               </p>
@@ -433,7 +433,7 @@ function Home() {
               alt="g1"
               className="absolute -mt-40 y-axis-movement"
             />
-            <div className="text-center w-80   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center animate-card">
+            <div className="text-center w-80   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-xl w-60 text-center font-bold">
                 Enter the Battle Arena{" "}
               </p>
@@ -451,7 +451,7 @@ function Home() {
               alt="g1"
               className="absolute -mt-40 y-axis-movement"
             />
-            <div className="text-center  w-80  border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center animate-card">
+            <div className="text-center  w-80  border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px] p-14 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-xl w-60 text-center font-bold">
                 Battle for Supremacy{" "}
               </p>
@@ -467,7 +467,7 @@ function Home() {
               alt="g1"
               className="absolute -mt-40 y-axis-movement"
             />
-            <div className="text-center w-80   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px]  p-14 rounded-2xl border-[#fcd928] card1 flex flex-col gap-5 items-center animate-card">
+            <div className="text-center w-80   border-l-[2px] border-r-[2px] border-b-[2px] border-t-[0px]  p-14 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center animate-card">
               <p className="text-xl w-60 text-center font-bold">
                 Claim Your NFT Prize{" "}
               </p>
