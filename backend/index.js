@@ -8,10 +8,8 @@ mongoose.connect(
   "mongodb+srv://vairamuthu:vairamuthu@cluster0.2qcddvx.mongodb.net/StellarHunt"
 );
 const cors = require("cors");
-app.use(cors());
+app.use(cors("*"));
 
-const authRoutes = require("./routes/api");
-app.use("/auth", authRoutes);
 app.use("/api/waitlist", waitlistRoutes);
 app.get("/", (req, res) => {
   res.json({

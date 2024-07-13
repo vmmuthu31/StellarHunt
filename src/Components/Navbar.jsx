@@ -45,7 +45,7 @@ function Navbar() {
   return (
     <div>
       <div className="flex items-center justify-between md:px-10 md:pt-10">
-        <div className="flex gap-10">
+        <div className="flex items-center   gap-10">
           <button
             className="playnowbtn"
             onClick={howitworks}
@@ -58,7 +58,9 @@ function Navbar() {
         <img src={navicon} alt="logo" className="h-24 w-auto" />
         <div className="flex items-center gap-10">
           <Link href="/lobby">
-            <button className="playnowbtn  wobble-effect-ui">Play Now!</button>{" "}
+            <button className="playnowbtn text-white  wobble-effect-ui">
+              Play Now!
+            </button>{" "}
           </Link>
           <Link href="/Waitlist">
             <button
