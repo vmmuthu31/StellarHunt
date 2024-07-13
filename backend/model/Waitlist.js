@@ -8,10 +8,6 @@ const WaitlistSchema = new Schema({
     required: true,
     unique: true,
   },
-  walletAddress: {
-    type: String,
-    required: true,
-  },
   date: {
     type: Date,
     default: Date.now,

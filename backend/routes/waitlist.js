@@ -3,7 +3,7 @@ const Waitlist = require("../model/Waitlist");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { email, walletAddress } = req.body;
+  const { email } = req.body;
 
   try {
     let waitlistEntry = await Waitlist.findOne({ email });
@@ -15,7 +15,6 @@ router.post("/", async (req, res) => {
 
     waitlistEntry = new Waitlist({
       email,
-      walletAddress,
     });
 
     await waitlistEntry.save();

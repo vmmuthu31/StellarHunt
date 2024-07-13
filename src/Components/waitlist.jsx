@@ -38,7 +38,6 @@ const glowKeyframes = `
 
 const WaitlistForm = () => {
   const [email, setEmail] = useState("");
-  const [walletAddress, setWalletAddress] = useState("");
   const [message, setMessage] = useState("");
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -49,7 +48,6 @@ const WaitlistForm = () => {
         "https://stellarhunt-be.vercel.app/api/waitlist",
         {
           email,
-          walletAddress,
         }
       );
       setMessage(response.data.message);
@@ -93,13 +91,6 @@ const WaitlistForm = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-4 text-xl text-white bg-transparent border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#c9fa00] focus:border-transparent"
-            />
-            <input
-              type="text"
-              placeholder="Wallet Address"
-              value={walletAddress}
-              onChange={(e) => setWalletAddress(e.target.value)}
               className="w-full p-4 text-xl text-white bg-transparent border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#c9fa00] focus:border-transparent"
             />
             <button
