@@ -3,15 +3,24 @@ import "./../styles/result.css";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import confetti from "canvas-confetti";
+import { gameEnd } from "../../config/Services";
+import { useAccount } from "../../config/useAccount";
 
 const Result = () => {
   const [playerNames, setPlayerNames] = useState([]);
   const [team, setTeam] = useState([]);
+  const account = useAccount();
+
+  const [walletAddress, setWalletAddress] = useState(account?.address || "");
   const playername = "macha";
   const playerValue = useSelector((state) => state.authslice.playerdata);
   const players = useSelector((state) => state.authslice.players);
   const gameid = useSelector((state) => state.authslice.id);
-
+  useEffect(() => {
+    if (account?.address) {
+      setWalletAddress(account.address);
+    }
+  }, [account]);
   useEffect(() => {
     const sortedTeam = playerValue
       .map((value, index) => ({
@@ -49,8 +58,8 @@ const Result = () => {
         imghash
       );
       //     should be like this if we integrate the startgame funct
-      // const response = await startgame({ gameid: gameIdInt, playerNames });
-      console.log("response", response);
+      //  const response = await startgame({ gameid: gameIdInt, playerNames });
+      // console.log("response", response);
       // should be like this if we integrate the endGame function
       // const res = await endGame({
       //   gameid: gameIdInt,
@@ -67,6 +76,8 @@ const Result = () => {
 
   const [applyed, setApplyed] = useState(false);
   const [myrank, setrank] = useState(false);
+  const [claimable, setClaimable] = useState(false);
+  const [tokensAwarded, setTokensAwarded] = useState(0);
 
   useEffect(() => {
     const matchingPlayer = players.find(
@@ -92,9 +103,7 @@ const Result = () => {
         sent: 31,
       };
     });
-    team = team.sort((a, b) => {
-      b.kudos - a.kudos;
-    });
+    team = team.sort((a, b) => b.kudos - a.kudos);
     team.forEach((player, index) => {
       player.rank = index + 1;
     });
@@ -104,10 +113,12 @@ const Result = () => {
       let randomNumber = Math.floor(Math.random() * emojis.length);
       return emojis[randomNumber];
     };
+
     var class_obj = document.getElementById("list");
     while (class_obj.firstChild) {
       class_obj.removeChild(class_obj.firstChild);
     }
+
     if (applyed === false) {
       console.log(applyed);
       console.log("the function are called...");
@@ -192,18 +203,48 @@ const Result = () => {
       spread: 70,
       origin: { y: 0.6 },
     });
-  }, []);
+
+    const kills = playerValue.reduce(
+      (total, player) => total + player.state.kills,
+      0
+    );
+    if (kills > 0) {
+      setTokensAwarded(kills * 5);
+      setClaimable(true);
+    }
+  }, [playerValue, applyed]);
+
+  const handleClaim = async () => {
+    try {
+      await gameEnd(walletAddress, walletAddress, tokensAwarded);
+      console.log(`Claimed ${tokensAwarded} tokens successfully`);
+      setClaimable(false);
+      // Redirect to the lobby
+      window.location.href = "/lobby";
+    } catch (error) {
+      console.error("Failed to claim tokens", error);
+    }
+  };
 
   return (
     <>
       <div className="text-white min-h-screen l-wrapper">
         <h1 className="text-center text-3xl font-bold my-4 ">Leaderboard</h1>
         <div className="c-header">
-          <button className="mapbox px-5 py-3 rounded-lg r-wrapper lobby-button">
-            <Link href="/lobby" style={{ color: "#ffffff" }}>
-              Lobby
-            </Link>
-          </button>
+          {!claimable ? (
+            <button className="mapbox px-5 py-3 rounded-lg r-wrapper lobby-button">
+              <Link href="/lobby" style={{ color: "#ffffff" }}>
+                Lobby
+              </Link>
+            </button>
+          ) : (
+            <button
+              className="mapbox px-5 py-3 rounded-lg r-wrapper claim-button"
+              onClick={handleClaim}
+            >
+              Claim {tokensAwarded} Tokens
+            </button>
+          )}
         </div>
 
         <div className="l-grid">
@@ -243,6 +284,13 @@ const Result = () => {
           position: fixed;
           top: 25px;
           right: 25px;
+        }
+        .claim-button {
+          position: fixed;
+          top: 25px;
+          right: 25px;
+          background-color: #9fc610;
+          color: #000;
         }
         .glowing-card {
           position: relative;

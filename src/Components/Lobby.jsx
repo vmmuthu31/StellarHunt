@@ -11,6 +11,7 @@ import {
   isUserRegistered,
   registerUser,
   getUserData,
+  gameStart,
 } from "../../config/Services";
 import { useDispatch, useSelector } from "react-redux";
 import { setPlayerData, setTimer } from "../../store/authslice";
@@ -30,15 +31,16 @@ const Lobby = () => {
   const mounted = useIsMounted();
   const account = useAccount();
   const dispatch = useDispatch();
+  const playerinfo = useSelector((state) => state.authslice.playerdata);
+  console.log(playerinfo);
   const [balances, setBalances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapIndex, setMapIndex] = useState(0);
-  const playerinfo = useSelector((state) => state.authslice.playerdata);
+  const [walletAddress, setWalletAddress] = useState(account?.address || "");
   const [playerData, setPlayerDa] = useState(playerinfo || null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
-  const [walletAddress, setWalletAddress] = useState(account?.address || "");
   const gltf = useLoader(GLTFLoader, "./models/Character_Soldier.gltf");
   const [activeButton, setActiveButton] = useState(null);
 
@@ -46,9 +48,7 @@ const Lobby = () => {
     if (account?.address) {
       setWalletAddress(account.address);
       fetchBalances(account.address);
-      if (playerinfo !== null) {
-        checkIfUserRegistered(account.address);
-      }
+      checkIfUserRegistered(account.address);
     }
   }, [account]);
 
@@ -58,23 +58,20 @@ const Lobby = () => {
         `https://horizon-testnet.stellar.org/accounts/${address}`
       );
       setBalances(response.data.balances);
-      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch balances:", error);
+    } finally {
       setLoading(false);
     }
   };
 
   const checkIfUserRegistered = async (wallet) => {
-    setLoading(true);
     try {
       const result = await isUserRegistered(wallet);
       console.log("User registration check result:", result);
 
-      if (!result) {
-        startTransition(() => {
-          setModalIsOpen(true);
-        });
+      if (!result || !playerData) {
+        setModalIsOpen(true);
       } else {
         fetchUserData(wallet);
       }
@@ -143,6 +140,20 @@ const Lobby = () => {
       toast.error("Registration failed");
     } finally {
       setIsRegistering(false);
+      setLoading(false);
+    }
+  };
+
+  const startGame = async () => {
+    setLoading(true);
+    try {
+      await gameStart(walletAddress, walletAddress);
+      toast.success("Game started!");
+      window.location.href = "/game";
+    } catch (error) {
+      console.error("Failed to start game", error);
+      toast.error("Failed to start game");
+    } finally {
       setLoading(false);
     }
   };
@@ -421,9 +432,11 @@ const Lobby = () => {
             <Link
               className="playbtm px-10 font-semibold py-2 mt-5 text-xl text-black"
               href="/game"
-              onClick={(e) => {
-                if (!playerData) {
-                  e.preventDefault();
+              onClick={async (e) => {
+                e.preventDefault();
+                if (playerData) {
+                  await startGame();
+                } else {
                   setModalIsOpen(true);
                   toast.error("Please complete registration to play.");
                 }

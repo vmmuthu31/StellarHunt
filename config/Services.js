@@ -15,7 +15,7 @@ import { userSignTransaction } from "./Freighter";
 let rpcUrl = "https://soroban-testnet.stellar.org";
 
 let contractAddress =
-  "CAVP2L7EW274SZ7KSSP3SEKXLZQUKEKI36BZPRJR4RQ2LQK4KZ2ZTWXC";
+  "CAW62A7V5ZXWR4GKXEYVZNDUWHPBRP4G4QZYPZAJE2SRMA3OQC2D73QS";
 
 const sourceKeypair = Keypair.fromSecret(
   "SDCSIPSBQ2RWO4B6EVGRBKFJSDSAKCHDOBGDW6RK5GJPLIOCPGB36XZ2"
@@ -174,6 +174,29 @@ async function updateUser(caller, wallet, diamonds, nfts, xp, kills) {
   }
 }
 
+async function gameStart(caller, wallet) {
+  let walletScVal = accountToScVal(wallet);
+
+  try {
+    await contractInt(caller, "game_start", walletScVal);
+    console.log(`Game started for user with wallet ${wallet}`);
+  } catch (error) {
+    console.log("Failed to start game", error);
+  }
+}
+
+async function gameEnd(caller, wallet, tokensAwarded) {
+  let walletScVal = accountToScVal(wallet);
+  let tokensAwardedScVal = nativeToScVal(tokensAwarded);
+
+  try {
+    await contractInt(caller, "game_end", [walletScVal, tokensAwardedScVal]);
+    console.log(`Game ended for user with wallet ${wallet}`);
+  } catch (error) {
+    console.log("Failed to end game", error);
+  }
+}
+
 async function getUserNFTs(caller, wallet) {
   let walletScVal = accountToScVal(wallet);
 
@@ -324,6 +347,8 @@ export {
   registerUser,
   isUserRegistered,
   updateUser,
+  gameStart,
+  gameEnd,
   getUserNFTs,
   contractInt,
   getLeaderboard,
