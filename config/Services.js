@@ -9,13 +9,11 @@ import {
   Address,
 } from "@stellar/stellar-sdk";
 import { Buffer } from "buffer";
-
 import { userSignTransaction } from "./Freighter";
 
 let rpcUrl = "https://soroban-testnet.stellar.org";
-
 let contractAddress =
-  "CAW62A7V5ZXWR4GKXEYVZNDUWHPBRP4G4QZYPZAJE2SRMA3OQC2D73QS";
+  "CCDDPHJDBLKOMFUBJEQ6ICRIWTRIN5NFHJQ5M5ETOISBJASLVXHEXX3K";
 
 const sourceKeypair = Keypair.fromSecret(
   "SDCSIPSBQ2RWO4B6EVGRBKFJSDSAKCHDOBGDW6RK5GJPLIOCPGB36XZ2"
@@ -46,6 +44,9 @@ async function contractInt(caller, functName, values) {
   const contract = new Contract(contractAddress);
   let buildTx;
 
+  console.log("Function Name:", functName);
+  console.log("Values:", values);
+
   if (values == null) {
     buildTx = new TransactionBuilder(sourceAccount, params)
       .addOperation(contract.call(functName))
@@ -62,6 +63,8 @@ async function contractInt(caller, functName, values) {
       .setTimeout(20)
       .build();
   }
+
+  console.log("Built Transaction:", buildTx);
 
   let _buildTx = await provider.prepareTransaction(buildTx);
 
@@ -185,12 +188,51 @@ async function gameStart(caller, wallet) {
   }
 }
 
-async function gameEnd(caller, wallet, tokensAwarded) {
-  let walletScVal = accountToScVal(wallet);
-  let tokensAwardedScVal = nativeToScVal(tokensAwarded);
+async function gameEnd(caller, wallet, diamonds, nfts, xp, kills, tokens) {
+  console.log("Game end called with parameters:");
+  console.log("Caller:", caller);
+  console.log("Wallet:", wallet);
+  console.log("Diamonds:", diamonds);
+  console.log("NFTs:", nfts);
+  console.log("XP:", xp);
+  console.log("Kills:", kills);
+  console.log("Tokens:", tokens);
+
+  let walletScVal;
+  let diamondsScVal;
+  let nftsScVal;
+  let xpScVal;
+  let killsScVal;
+  let tokensScVal;
 
   try {
-    await contractInt(caller, "game_end", [walletScVal, tokensAwardedScVal]);
+    walletScVal = accountToScVal(wallet);
+    diamondsScVal = numberToU64(diamonds);
+    nftsScVal = vecToScValVec(nfts);
+    xpScVal = numberToU64(xp);
+    killsScVal = numberToU64(kills);
+    tokensScVal = nativeToScVal(tokens);
+  } catch (e) {
+    console.error("Error converting parameters to ScVal:", e);
+    return;
+  }
+
+  console.log("Converted Wallet ScVal:", walletScVal);
+  console.log("Converted Diamonds ScVal:", diamondsScVal);
+  console.log("Converted NFTs ScVal:", nftsScVal);
+  console.log("Converted XP ScVal:", xpScVal);
+  console.log("Converted Kills ScVal:", killsScVal);
+  console.log("Converted Tokens ScVal:", tokensScVal);
+
+  try {
+    await contractInt(caller, "game_end", [
+      walletScVal,
+      diamondsScVal,
+      nftsScVal,
+      xpScVal,
+      killsScVal,
+      tokensScVal,
+    ]);
     console.log(`Game ended for user with wallet ${wallet}`);
   } catch (error) {
     console.log("Failed to end game", error);

@@ -88,14 +88,26 @@ impl UserContract {
             log!(&env, "User with wallet: {} not found", wallet);
         }
     }
-
-    pub fn game_end(env: Env, wallet: Address, tokens_awarded: i128) {
+    
+    pub fn game_end(env: Env, wallet: Address, diamonds: u32, nfts: Vec<NFT>, xp: u32, kills: u32, tokens: i128) {
         if let Some(mut user) = env.storage().instance().get::<Address, User>(&wallet) {
-            user.tokens += tokens_awarded;
+            user.diamonds += diamonds;
+            user.xp += xp;
+            user.kills += kills;
+            user.matches += 1;
+            user.tokens += tokens;
             env.storage().instance().set(&wallet, &user);
-            log!(&env, "Gam e ended for wallet: {}. Tokens awarded: {}", wallet, tokens_awarded);
+
+            let user_nfts_key = (wallet.clone(), String::from_slice(&env, "nfts"));
+            let mut user_nfts: Vec<NFT> = env.storage().instance().get(&user_nfts_key).unwrap_or(Vec::new(&env));
+            for nft in nfts.iter() {
+                user_nfts.push_back(nft.clone());
+            }
+            env.storage().instance().set(&user_nfts_key, &user_nfts);
 
             Self::update_leaderboard(env.clone(), wallet.clone());
+
+            log!(&env, "Updated user with wallet: {}. Diamonds: {}, NFTs: {:?}, XP: {}", wallet, user.diamonds, user_nfts, user.xp);
         } else {
             log!(&env, "User with wallet: {} not found", wallet);
         }

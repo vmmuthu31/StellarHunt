@@ -7,7 +7,6 @@ import { gameEnd } from "../../config/Services";
 import { useAccount } from "../../config/useAccount";
 
 const Result = () => {
-  const [playerNames, setPlayerNames] = useState([]);
   const [team, setTeam] = useState([]);
   const account = useAccount();
 
@@ -16,11 +15,17 @@ const Result = () => {
   const playerValue = useSelector((state) => state.authslice.playerdata);
   const players = useSelector((state) => state.authslice.players);
   const gameid = useSelector((state) => state.authslice.id);
+
+  const [claimable, setClaimable] = useState(false);
+  const [tokensAwarded, setTokensAwarded] = useState(0);
+  const [mvp, setMVP] = useState(null);
+
   useEffect(() => {
     if (account?.address) {
       setWalletAddress(account.address);
     }
   }, [account]);
+
   useEffect(() => {
     const sortedTeam = playerValue
       .map((value, index) => ({
@@ -30,180 +35,42 @@ const Result = () => {
         img: value.state.profile.photo,
         kudos: value.state.kills,
         deaths: value.state.deaths,
-        sent: 31,
+        wallet: value.state.profile.wallet,
       }))
       .sort((a, b) => b.kudos - a.kudos);
 
     setTeam(sortedTeam);
-  }, [playerValue]);
 
-  const [playerdata, setPlayerdata] = useState("");
-
-  console.log("team", team);
-
-  useEffect(() => {
-    const winner = team[0];
-    const highestKillsPlayer = team[0];
-    const gameIdInt = gameid && /^\d/.test(gameid) ? parseInt(gameid) : 0;
-
-    const startGame = async () => {
-      const imghash =
-        "https://t3.ftcdn.net/jpg/02/82/23/94/360_F_282239447_9JUkxLmUPzBvOrEAXVEx2GpNd1EkPOSO.jpg";
-
-      console.log(
-        "game data",
-        gameIdInt,
-        winner.name,
-        highestKillsPlayer.kudos,
-        imghash
-      );
-      //     should be like this if we integrate the startgame funct
-      //  const response = await startgame({ gameid: gameIdInt, playerNames });
-      // console.log("response", response);
-      // should be like this if we integrate the endGame function
-      // const res = await endGame({
-      //   gameid: gameIdInt,
-      //   winner: playerdata[0],
-      //   highestkills: highestKillsPlayer.kudos,
-      //   imghash,
-      // });
-
-      console.log("res", res);
-    };
-
-    startGame();
-  }, [team, playerNames, gameid]);
-
-  const [applyed, setApplyed] = useState(false);
-  const [myrank, setrank] = useState(false);
-  const [claimable, setClaimable] = useState(false);
-  const [tokensAwarded, setTokensAwarded] = useState(0);
-
-  useEffect(() => {
-    const matchingPlayer = players.find(
-      (player) => player.state.profile?.name === playername
-    );
-    if (matchingPlayer) {
-      console.log("Matching player state:", matchingPlayer.state);
-    } else {
-      console.log("No matching player found.");
-    }
-  }, [players, playername]);
-
-  useEffect(() => {
-    setApplyed(true);
-    var team = playerValue.map((playerValue, index) => {
-      return {
-        rank: index + 1,
-        name: playerValue.state.profile.name,
-        handle: playerValue.state.profile.name,
-        img: playerValue.state.profile.photo,
-        kudos: playerValue.state.kills,
-        deaths: playerValue.state.deaths,
-        sent: 31,
-      };
-    });
-    team = team.sort((a, b) => b.kudos - a.kudos);
-    team.forEach((player, index) => {
-      player.rank = index + 1;
-    });
-
-    const randomEmoji = () => {
-      const emojis = ["👏", "👍", "🙌", "🤩", "🔥", "⭐️", "🏆", "💯"];
-      let randomNumber = Math.floor(Math.random() * emojis.length);
-      return emojis[randomNumber];
-    };
-
-    var class_obj = document.getElementById("list");
-    while (class_obj.firstChild) {
-      class_obj.removeChild(class_obj.firstChild);
-    }
-
-    if (applyed === false) {
-      console.log(applyed);
-      console.log("the function are called...");
-      let newRow = document.createElement("li");
-      newRow.classList = "c-list__item";
-      newRow.innerHTML = `
-                <div className="c-list__grid" style="display: contents;">
-                    <div className="u-text--left u-text--small u-text--medium">
-                    Rank
-                    </div>
-                    <div className="u-text--left u-text--small u-text--medium">
-                    Name
-                    </div>
-                    <div className="u-text--right u-text--small u-text--medium">
-                    # Kills/Deaths
-                    </div>
-                </div>`;
-      list.appendChild(newRow);
-      team.forEach((member) => {
-        let newRow = document.createElement("li");
-        newRow.classList = "c-list__item";
-        newRow.innerHTML = `
-                    <div class="c-list__grid" style="display: contents;">
-                        <div class="c-flag c-place u-bg--transparent">${
-                          member.rank
-                        }</div>
-                        <div class="c-media">
-                            <img class="c-avatar c-media__img" src="${
-                              member.img
-                            }" />
-                            <div class="c-media__content">
-                                <div class="c-media__title">${member.name}</div>
-                            
-                            </div>
-                        </div>
-                        <div class="u-text--right c-kudos">
-                            <div class="u-mt--8">
-                                <strong>${member.kudos}</strong>/<strong>${
-          member.deaths
-        }</strong> ${randomEmoji()}
-                            </div>
-                        </div>
-                    </div>
-                `;
-        if (member.rank === 1) {
-          newRow.querySelector(".c-place").classList.add("u-text--dark");
-          newRow.querySelector(".c-place").classList.add("u-bg--yellow");
-          newRow.querySelector(".c-kudos").classList.add("u-text--yellow");
-        } else if (member.rank === 2) {
-          newRow.querySelector(".c-place").classList.add("u-text--dark");
-          newRow.querySelector(".c-place").classList.add("u-bg--teal");
-          newRow.querySelector(".c-kudos").classList.add("u-text--teal");
-        } else if (member.rank === 3) {
-          newRow.querySelector(".c-place").classList.add("u-text--dark");
-          newRow.querySelector(".c-place").classList.add("u-bg--orange");
-          newRow.querySelector(".c-kudos").classList.add("u-text--orange");
-        }
-        list.appendChild(newRow);
-      });
-      setApplyed(true);
-    } else {
-      console.log("the function did not called...");
-    }
-
-    let winner = team[0];
-    team.forEach((player) => {
-      if (player.kudos > winner.kudos) {
-        winner = player;
+    if (sortedTeam.length > 0) {
+      const topPlayer = sortedTeam[0];
+      setMVP(topPlayer);
+      setTokensAwarded(topPlayer.kudos * 5);
+      if (topPlayer.wallet === walletAddress) {
+        setClaimable(true);
       }
-    });
-    const winnerCard = document.getElementById("winner");
-    winnerCard.innerHTML = `
-            <div class="u-text-small u-text--medium u-mb--16">MVP of the Match🔥</div>
-            <img class="c-avatar c-avatar--lg" src="${winner.img}"/>
-            <h3 class="u-mt--16">${winner.name}</h3>
-            <span class="u-text--teal u-text--small">${winner.name}</span>
-        `;
+    }
+  }, [playerValue, walletAddress]);
 
-    // Confetti effect on page load
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
+  const handleClaim = async () => {
+    try {
+      await gameEnd(
+        walletAddress,
+        walletAddress, // Wallet
+        0, // Diamonds
+        [], // NFTs
+        0, // XP
+        0, // Kills
+        tokensAwarded // Tokens
+      );
+      console.log(`Claimed ${tokensAwarded} tokens successfully`);
+      setClaimable(false);
+      window.location.href = "/lobby";
+    } catch (error) {
+      console.error("Failed to claim tokens", error);
+    }
+  };
 
+  useEffect(() => {
     const kills = playerValue.reduce(
       (total, player) => total + player.state.kills,
       0
@@ -212,19 +79,87 @@ const Result = () => {
       setTokensAwarded(kills * 5);
       setClaimable(true);
     }
-  }, [playerValue, applyed]);
 
-  const handleClaim = async () => {
-    try {
-      await gameEnd(walletAddress, walletAddress, tokensAwarded);
-      console.log(`Claimed ${tokensAwarded} tokens successfully`);
-      setClaimable(false);
-      // Redirect to the lobby
-      window.location.href = "/lobby";
-    } catch (error) {
-      console.error("Failed to claim tokens", error);
+    const randomEmoji = () => {
+      const emojis = ["👏", "👍", "🙌", "🤩", "🔥", "⭐️", "🏆", "💯"];
+      return emojis[Math.floor(Math.random() * emojis.length)];
+    };
+
+    const class_obj = document.getElementById("list");
+    while (class_obj.firstChild) {
+      class_obj.removeChild(class_obj.firstChild);
     }
-  };
+
+    let newRow = document.createElement("li");
+    newRow.classList = "c-list__item";
+    newRow.innerHTML = `
+      <div className="c-list__grid" style="display: contents;">
+          <div className="u-text--left u-text--small u-text--medium">
+          Rank
+          </div>
+          <div className="u-text--left u-text--small u-text--medium">
+          Name
+          </div>
+          <div className="u-text--right u-text--small u-text--medium">
+          # Kills/Deaths
+          </div>
+      </div>`;
+    class_obj.appendChild(newRow);
+
+    team.forEach((member) => {
+      let newRow = document.createElement("li");
+      newRow.classList = "c-list__item";
+      newRow.innerHTML = `
+        <div class="c-list__grid" style="display: contents;">
+            <div class="c-flag c-place u-bg--transparent">${member.rank}</div>
+            <div class="c-media">
+                <img class="c-avatar c-media__img" src="${member.img}" />
+                <div class="c-media__content">
+                    <div class="c-media__title">${member.name}</div>
+                </div>
+            </div>
+            <div class="u-text--right c-kudos">
+                <div class="u-mt--8">
+                    <strong>${member.kudos}</strong>/<strong>${
+        member.deaths
+      }</strong> ${randomEmoji()}
+                </div>
+            </div>
+        </div>
+      `;
+      if (member.rank === 1) {
+        newRow.querySelector(".c-place").classList.add("u-text--dark");
+        newRow.querySelector(".c-place").classList.add("u-bg--yellow");
+        newRow.querySelector(".c-kudos").classList.add("u-text--yellow");
+      } else if (member.rank === 2) {
+        newRow.querySelector(".c-place").classList.add("u-text--dark");
+        newRow.querySelector(".c-place").classList.add("u-bg--teal");
+        newRow.querySelector(".c-kudos").classList.add("u-text--teal");
+      } else if (member.rank === 3) {
+        newRow.querySelector(".c-place").classList.add("u-text--dark");
+        newRow.querySelector(".c-place").classList.add("u-bg--orange");
+        newRow.querySelector(".c-kudos").classList.add("u-text--orange");
+      }
+      class_obj.appendChild(newRow);
+    });
+
+    const winnerCard = document.getElementById("winner");
+    if (team.length > 0) {
+      const winner = team[0];
+      winnerCard.innerHTML = `
+        <div class="u-text-small u-text--medium u-mb--16">MVP of the Match🔥</div>
+        <img class="c-avatar c-avatar--lg" src="${winner.img}"/>
+        <h3 class="u-mt--16">${winner.name}</h3>
+        <span class="u-text--teal u-text--small">${winner.name}</span>
+      `;
+    }
+
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+  }, [team]);
 
   return (
     <>

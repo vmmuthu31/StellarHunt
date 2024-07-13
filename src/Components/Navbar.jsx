@@ -46,14 +46,21 @@ function Navbar() {
     <div>
       <div className="flex items-center justify-between md:px-10 md:pt-10">
         <div className="flex items-center   gap-10">
-          <button
-            className="playnowbtn"
-            onClick={howitworks}
-            style={{ cursor: "pointer" }}
+          <Link
+            className="text-white"
+            href="https://stellarhunt.gitbook.io/stellarhunt"
           >
-            How it works
-          </button>
-          <button className="playnowbtn">MarketPlace</button>
+            <button
+              className="playnowbtn"
+              onClick={howitworks}
+              style={{ cursor: "pointer" }}
+            >
+              How it works
+            </button>
+          </Link>
+          <Link href="/optstore" className="text-white">
+            <button className="playnowbtn">MarketPlace</button>
+          </Link>
         </div>
         <img src={navicon} alt="logo" className="h-24 w-auto" />
         <div className="flex items-center gap-10">
