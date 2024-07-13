@@ -24,7 +24,7 @@ const mapPaths = [
   "https://blogger.googleusercontent.com/img/a/AVvXsEgHxU-HB-lQ9ifrEy-ymcHR6aeTkwzBaOsIQ6SXinjXyVVmqCbtY44ZraIGYM86B6DT7vk3jDrQSbdJn61D6jZB3HX3aRSc7EIYnSStvJmZefxCOpcKRZVFqha7jg0dd4i-0qZN-87FqviZbUY3oODu3bvJZK9ytVKnLRYcgFpo9hz4JzK25BmQS5c9TMI",
 ];
 
-const mapNames = ["Pochinki", "Israel"];
+const mapNames = ["Pochinki", "Upcoming..."];
 
 const Lobby = () => {
   const mounted = useIsMounted();
@@ -40,6 +40,7 @@ const Lobby = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [walletAddress, setWalletAddress] = useState(account?.address || "");
   const gltf = useLoader(GLTFLoader, "./models/Character_Soldier.gltf");
+  const [activeButton, setActiveButton] = useState(null);
 
   useEffect(() => {
     if (account?.address) {
@@ -114,9 +115,10 @@ const Lobby = () => {
     });
   };
 
-  const setGameTime = (time) => {
+  const setGameTime = (time, buttonId) => {
     startTransition(() => {
       dispatch(setTimer(time));
+      setActiveButton(buttonId);
     });
   };
 
@@ -228,9 +230,7 @@ const Lobby = () => {
               className="h-12 w-auto"
               alt=""
             />
-            <p>
-              {playerData?.username} LVL {playerData?.user?.xp || 0}
-            </p>
+            <p>{playerData?.username} LVL 1</p>
           </div>
           <div className="flex items-center space-x-2">
             <img
@@ -246,13 +246,13 @@ const Lobby = () => {
               alt=""
               className="h-8 w-auto"
             />
-            <p>{playerData?.user?.matches || 0}</p>
+            <p>{playerData?.user?.xp || 0}</p>
           </div>
         </div>
         <div>
           {mounted && account ? (
             <div className="flex flex-col items-center">
-              <div className="text-lg flex gap-2 bg-blue-400 px-4 py-3 rounded-2xl font-semibold text-white">
+              <div className="text-lg flex gap-2 mapbox px-4 py-3 rounded-2xl font-semibold text-white">
                 {account.displayName} :{" "}
                 {loading
                   ? "..."
@@ -292,7 +292,9 @@ const Lobby = () => {
                 className="h-8 w-auto"
               />
               <p>
-                <Link href="/optstore">Store</Link>
+                <Link className="text-white" href="/optstore">
+                  Store
+                </Link>
               </p>
             </div>
             <div className="flex items-center my-10 space-x-5">
@@ -302,7 +304,9 @@ const Lobby = () => {
                 className="h-8 w-auto"
               />
               <p>
-                <Link href="/optstore">LuckRoyale</Link>
+                <Link className="text-white" href="/optstore">
+                  LuckRoyale
+                </Link>
               </p>
             </div>
             <div className="flex items-center space-x-5">
@@ -312,7 +316,9 @@ const Lobby = () => {
                 className="h-8 w-auto"
               />
               <p>
-                <Link href="/Guns">Vault</Link>
+                <Link className="text-white" href="/Guns">
+                  Vault
+                </Link>
               </p>
             </div>
           </div>
@@ -337,11 +343,22 @@ const Lobby = () => {
             }}
           >
             <div className="flex mapbox px-6 py-3 w-72 items-center space-x-5">
-              <img src="your-image-url" alt="" className="h-8 w-auto" />
+              <img
+                src="https://blogger.googleusercontent.com/img/a/AVvXsEhJ85zCrUSpRV7cSOt5Y1VeibTq8106ipzp_Ow_LZxxFvl2BDdUTpR0N5LVWnfhcA8DjymoCzOOgAl_3P4kpI9QXB2MJBEm6DP1n6kbleCpf_8IY_uaucIZpKyAwZjNJd9XzG2GRbyyqMhX5FKrNeKg1UAj0WLoxEA8b9hKg-eXqJi7IralLJYl8fnj2Uk"
+                alt=""
+                className="h-8 w-auto"
+              />
               <p>Select Map</p>
             </div>
             <div>
-              <img src={mapPaths[mapIndex]} className="h-40 w-auto" alt="" />
+              <img
+                src={mapPaths[mapIndex]}
+                className={`h-40 w-auto ${
+                  mapIndex !== 0 ? "mx-auto blur-sm" : ""
+                }`}
+                alt=""
+              />
+
               <div
                 className="bg-black"
                 style={{
@@ -355,7 +372,7 @@ const Lobby = () => {
                 <button className="px-2 bg-[#2f2f2f]" onClick={rightClick}>
                   {">"}
                 </button>
-                <p className="text-center bg-opacity-40 py-2 w-[68px]">
+                <p className="text-center bg-opacity-40 py-2 ">
                   {mapNames[mapIndex]}
                 </p>
                 <button className="px-2 bg-[#2f2f2f]" onClick={leftClick}>
@@ -367,28 +384,34 @@ const Lobby = () => {
 
           <div className="flex justify-between mx-2 items-center mt-3">
             <button
-              onClick={() => {
-                setGameTime(60);
-              }}
-              className="px-3 text-lg hover:text-black hover:bg-[#9FC610] py-1 border border-[#9FC610] rounded-xl text-[#9FC610]"
+              onClick={() => setGameTime(60, 1)}
+              className={`px-3 text-lg py-1 border border-[#9FC610] rounded-xl ${
+                activeButton === 1
+                  ? "bg-[#9FC610] text-black"
+                  : "text-[#9FC610] hover:bg-[#9FC610] hover:text-black"
+              }`}
               disabled={!playerData}
             >
               1 min
             </button>
             <button
-              onClick={() => {
-                setGameTime(300);
-              }}
-              className="px-3 text-lg hover:text-black hover:bg-[#9FC610] py-1 border border-[#9FC610] rounded-xl text-[#9FC610]"
+              onClick={() => setGameTime(300, 2)}
+              className={`px-3 text-lg py-1 border border-[#9FC610] rounded-xl ${
+                activeButton === 2
+                  ? "bg-[#9FC610] text-black"
+                  : "text-[#9FC610] hover:bg-[#9FC610] hover:text-black"
+              }`}
               disabled={!playerData}
             >
               5 min
             </button>
             <button
-              onClick={() => {
-                setGameTime(600);
-              }}
-              className="px-3 text-lg hover:text-black hover:bg-[#9FC610] py-1 border border-[#9FC610] rounded-xl text-[#9FC610]"
+              onClick={() => setGameTime(600, 3)}
+              className={`px-3 text-lg py-1 border border-[#9FC610] rounded-xl ${
+                activeButton === 3
+                  ? "bg-[#9FC610] text-black"
+                  : "text-[#9FC610] hover:bg-[#9FC610] hover:text-black"
+              }`}
               disabled={!playerData}
             >
               10 min

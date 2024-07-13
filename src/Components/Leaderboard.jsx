@@ -195,20 +195,39 @@ export const Leaderboard = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 p-4 flex z-10 gap-4">
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            top: "11%",
-            position: "fixed",
-          }}
-        >
+      <div className="fixed justify-between w-full  top-0 left-0 right-0 p-4 flex z-10 gap-4">
+        <div>
+          {players.map((player) => (
+            <div
+              key={player.id}
+              className="bg-opacity-60 mapbox backdrop-blur-sm flex items-center rounded-lg gap-2 p-2 min-w-[140px]"
+              style={{}}
+            >
+              <img
+                src={player.state.profile?.photo || ""}
+                className="w-10 h-10 border-2 rounded-full"
+                style={{
+                  borderColor: player.state.profile?.color,
+                }}
+              />
+              <div className="flex-grow">
+                <h2 className="font-bold text-sm">
+                  {player.state.profile.name}
+                </h2>
+
+                <div className="flex text-sm items-center gap-4">
+                  <p>🔫 {player.state.kills}</p>
+                  <p>💀 {player.state.deaths}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div>
           <p
             id="timer_con"
-            className="absolute"
+            className="mt-8"
             style={{
               backgroundColor: "#75b0feab",
               padding: "4px 11px",
@@ -220,11 +239,17 @@ export const Leaderboard = () => {
           >
             Time: {formatTime(timer)}
           </p>
-
+        </div>
+        <div>
+          <div className="mt-4  grid gap-2 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left md:hidden">
+            {peerIds.map((peerId) =>
+              peerId ? <RemotePeer key={peerId} peerId={peerId} /> : null
+            )}
+          </div>
           {!muted && (
             <button
               type="button"
-              className="absolute rounded-full border py-3 px-5 text-white bg-blue-600 right-10"
+              className="absolute rounded-xl mr-10  py-3 px-5 mt-5 text-white bg-blue-600 right-10"
               onClick={handleJoinRoom}
             >
               Unmute{" "}
@@ -234,69 +259,39 @@ export const Leaderboard = () => {
           {muted && (
             <button
               type="button"
-              className="absolute rounded-full border py-3 px-5 text-white bg-blue-600 right-40"
+              className="absolute rounded-full border py-3 px-10 mt-5 text-white mapbox right-20"
               onClick={handleExitRoom}
             >
               Mute{" "}
             </button>
           )}
-
-          <div className="mt-4 mb-32 grid gap-2 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left invisible">
-            {peerIds.map((peerId) =>
-              peerId ? <RemotePeer key={peerId} peerId={peerId} /> : null
-            )}
-          </div>
-        </div>
-
-        {players.map((player) => (
-          <div
-            key={player.id}
-            className="bg-opacity-60 backdrop-blur-sm flex items-center rounded-lg gap-2 p-2 min-w-[140px]"
-            style={{ backgroundColor: "#75B0FE" }}
+          <button
+            className="fixed top-4 right-4 z-10 text-white"
+            onClick={() => {
+              if (document.fullscreenElement) {
+                document.exitFullscreen();
+              } else {
+                document.documentElement.requestFullscreen();
+              }
+            }}
           >
-            <img
-              src={player.state.profile?.photo || ""}
-              className="w-10 h-10 border-2 rounded-full"
-              style={{
-                borderColor: player.state.profile?.color,
-              }}
-            />
-            <div className="flex-grow">
-              <h2 className="font-bold text-sm">{player.state.profile.name}</h2>
-
-              <div className="flex text-sm items-center gap-4">
-                <p>🔫 {player.state.kills}</p>
-                <p>💀 {player.state.deaths}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
-      <button
-        className="fixed top-4 right-4 z-10 text-white"
-        onClick={() => {
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
-          } else {
-            document.documentElement.requestFullscreen();
-          }
-        }}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
-          />
-        </svg>
-      </button>
     </>
   );
 };

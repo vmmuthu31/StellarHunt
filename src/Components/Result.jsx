@@ -140,9 +140,7 @@ const Result = () => {
                             }" />
                             <div class="c-media__content">
                                 <div class="c-media__title">${member.name}</div>
-                                <a class="c-media__link u-text--small" href="https://instagram.com/${
-                                  member.handle
-                                }" target="_blank">@${member.handle}</a>
+                            
                             </div>
                         </div>
                         <div class="u-text--right c-kudos">
@@ -199,11 +197,9 @@ const Result = () => {
   return (
     <>
       <div className="text-white min-h-screen l-wrapper">
-        <h1 className="text-center text-3xl font-bold my-4 glowing-text">
-          Leaderboard
-        </h1>
+        <h1 className="text-center text-3xl font-bold my-4 ">Leaderboard</h1>
         <div className="c-header">
-          <button className="bg-purple-600 px-5 py-3 rounded-lg r-wrapper lobby-button">
+          <button className="mapbox px-5 py-3 rounded-lg r-wrapper lobby-button">
             <Link href="/lobby" style={{ color: "#ffffff" }}>
               Lobby
             </Link>
@@ -212,31 +208,15 @@ const Result = () => {
 
         <div className="l-grid">
           <div className="l-grid__item l-grid__item--sticky">
-            <div className="c-card u-bg--dark u-text--light glowing-card">
-              <div className="c-card__body">
-                <div className="u-display--flex u-justify--space-between">
-                  <div className="u-text--left">
-                    <div className="u-text--small">Room</div>
-                    <h1>{playerValue[0]?.id}</h1>
-                  </div>
-                  <div className="u-text--right">
-                    <div className="u-text--small">Prize Pool</div>
-                    <h2>
-                      {playerValue.kills}/{playerValue.deaths}
-                    </h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="c-card glowing-card">
-              <div className="c-card__body">
+            <div className="c-card  glowing-card">
+              <div className="c-card__body mapbox">
                 <div className="u-text--center" id="winner" />
               </div>
             </div>
           </div>
           <div className="l-grid__item">
-            <div className="c-card glowing-card">
-              <div className="c-card__body">
+            <div className="c-card glowing-card ">
+              <div className="c-card__body mapbox">
                 <ul className="c-list" id="list">
                   <li className="c-list__item">
                     <div className="c-list__grid">
@@ -275,7 +255,7 @@ const Result = () => {
           left: -10px;
           right: -10px;
           bottom: -10px;
-          background: radial-gradient(circle, violet 0%, transparent 60%);
+          background: radial-gradient(circle, #9fc610, transparent 60%);
           border-radius: 10px;
           animation: move-glow 3s infinite linear;
           z-index: -1;
@@ -296,14 +276,14 @@ const Result = () => {
         }
         @keyframes text-glow {
           from {
-            text-shadow: 0 0 10px #9333ea, 0 0 20px #9333ea, 0 0 30px #9333ea,
-              0 0 40px #9333ea, 0 0 50px #9333ea, 0 0 60px #9333ea,
-              0 0 70px #9333ea;
+            text-shadow: 0 0 10px #9fc610, 0 0 20px #9fc610, 0 0 30px #9fc610,
+              0 0 40px #9fc610, 0 0 50px #9fc610, 0 0 60px #9fc610,
+              0 0 70px #9fc610;
           }
           to {
-            text-shadow: 0 0 20px #9333ea, 0 0 30px #9333ea, 0 0 40px #9333ea,
-              0 0 50px #9333ea, 0 0 60px #9333ea, 0 0 70px #9333ea,
-              0 0 80px #9333ea;
+            text-shadow: 0 0 20px #9fc610, 0 0 30px #9fc610, 0 0 40px #9fc610,
+              0 0 50px #9fc610, 0 0 60px #9fc610, 0 0 70px #9fc610,
+              0 0 80px #9fc610;
           }
         }
       `}</style>
