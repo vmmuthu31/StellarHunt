@@ -56,7 +56,7 @@ body {
 }
 
 .herotext {
-  color: #c5f404;
+  color: #fcd928;
   font-feature-settings: "clig" off, "liga" off;
   font-family: "Handjet";
 
@@ -128,7 +128,7 @@ body {
   letter-spacing: 8px;
   font-size: 120px;
   margin-top: 20px;
-  color: #c5f404;
+  color: #fcd928;
   z-index: 2;
 }
 
@@ -150,8 +150,8 @@ body {
 }
 
 .highlight-text {
-  color: #c9fa00;
-  border: 1px solid #c9fa00;
+  color: #fcd928;
+  border: 1px solid #fcd928;
   padding: 1rem;
   border-radius: 0.675rem;
   font-size: 1.2rem;
@@ -178,7 +178,7 @@ body {
   font-family: "Galindo", sans-serif;
   font-weight: "extra-bold";
   font-style: normal;
-  border: 1px solid #9fc610;
+  border: 1px solid #fcd928;
   border-left-width: 0.5rem;
   padding: 0.5rem 2.1rem;
   margin-top: 0.5rem;
@@ -223,7 +223,7 @@ body {
   font-weight: 700;
   width: 800px;
   font-size: 60px;
-  color: #c5f404;
+  color: #fcd928;
 }
 
 .herodesctxt {
@@ -260,7 +260,7 @@ body {
 .playnow {
   font-family: "Handjet", sans-serif;
   font-weight: 800;
-  color: #c5f404;
+  color: #fcd928;
   letter-spacing: 2px;
   font-size: 2.5rem;
 }

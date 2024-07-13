@@ -135,7 +135,7 @@ const WaitlistForm = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 text-lg text-white bg-transparent border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#c9fa00] focus:border-transparent"
+              className="w-full p-3 text-lg text-white bg-transparent border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#fcd928] focus:border-transparent"
               style={{
                 animation: "fadeIn 3s ease-out, bounce 2s ease-in-out",
                 animationFillMode: "forwards",
@@ -144,7 +144,7 @@ const WaitlistForm = () => {
             />
             <button
               type="submit"
-              className="w-full p-3 text-xl font-bold text-black bg-[#c9fa00] rounded-md hover:bg-[#00cc00] transition duration-300 ease-in-out"
+              className="w-full p-3 text-xl font-bold text-black bg-[#fcd928] rounded-md hover:bg-[#00cc00] transition duration-300 ease-in-out"
               style={animatedButtonStyle}
             >
               Join Waitlist
