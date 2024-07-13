@@ -249,7 +249,7 @@ const Lobby = () => {
               alt=""
               className="h-8 w-auto"
             />
-            <p>{playerData?.user?.kills || 0}</p>
+            <p>{playerData?.user?.tokens || 0}</p>
           </div>
           <div className="flex items-center space-x-2">
             <img

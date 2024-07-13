@@ -311,7 +311,7 @@ function parseUserData(result) {
                 userAttributes.matches = userVal._value || 0;
                 break;
               case "kills":
-                userAttributes.kills = userVal._value || 200;
+                userAttributes.kills = userVal._value || 0;
                 break;
               case "tokens":
                 if (userVal._switch.name === "scvI128" && userVal._attributes) {
@@ -323,7 +323,7 @@ function parseUserData(result) {
                     : 0;
                   userAttributes.tokens = (BigInt(hi) << 64n) + BigInt(lo);
                 } else {
-                  userAttributes.tokens = "0";
+                  userAttributes.tokens = "200"; // Initial tokens value
                 }
                 break;
               default:
