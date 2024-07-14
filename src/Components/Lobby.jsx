@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState, startTransition } from "react";
+import React, { useState, useEffect, startTransition, Suspense } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useLoader } from "@react-three/fiber";
 import Link from "next/link";
@@ -32,17 +32,16 @@ const Lobby = () => {
   const account = useAccount();
   const dispatch = useDispatch();
   const playerinfo = useSelector((state) => state.authslice.playerdata);
-  console.log(playerinfo);
   const [balances, setBalances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mapIndex, setMapIndex] = useState(0);
   const [walletAddress, setWalletAddress] = useState(account?.address || "");
-  const [playerData, setPlayerDa] = useState(playerinfo || null);
+  const [playerData, setPlayerData] = useState(playerinfo || null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
-  const gltf = useLoader(GLTFLoader, "./models/Character_Soldier.gltf");
   const [activeButton, setActiveButton] = useState(null);
+  const gltf = useLoader(GLTFLoader, "./models/Character_Soldier.gltf");
 
   useEffect(() => {
     if (account?.address) {
@@ -68,8 +67,6 @@ const Lobby = () => {
   const checkIfUserRegistered = async (wallet) => {
     try {
       const result = await isUserRegistered(wallet);
-      console.log("User registration check result:", result);
-
       if (!result || !playerData) {
         setModalIsOpen(true);
       } else {
@@ -85,10 +82,10 @@ const Lobby = () => {
 
   const fetchUserData = async (wallet) => {
     try {
-      const userData = await getUserData(account?.address, wallet);
-      console.log("Fetched user data:", userData);
+      const userData = await getUserData(wallet);
       dispatch(setPlayerData(userData));
-      setPlayerDa(userData);
+      setPlayerData(userData);
+      console.log(playerinfo);
       toast.success("User is ready to play!");
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -125,9 +122,6 @@ const Lobby = () => {
     setLoading(true);
     try {
       const result = await registerUser(walletAddress, username, walletAddress);
-      console.log(
-        `User ${username} with wallet ${walletAddress} registered successfully`
-      );
       if (result) {
         setModalIsOpen(false);
         fetchUserData(walletAddress);
@@ -169,12 +163,10 @@ const Lobby = () => {
         <div className="absolute inset-0 bg-gray-900 bg-opacity-75 flex flex-col justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-lg px-8 py-7 max-w-lg w-96 relative">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl text-black font-semibold">
-                Connect Wallet
-              </h2>
+              <h2 className="text-xl text-black font-semibold">Hi, Huntee</h2>
             </div>
             <button
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-[#c9fa00] text-black px-4 py-2 rounded-md hover:bg-[#d9f762] focus:outline-none focus:ring-2 focus:ring-blue-500"
               onClick={() => {
                 setAllowed();
                 setWalletAddress(account?.address);
@@ -208,6 +200,7 @@ const Lobby = () => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
                 required
                 className="mt-1 block w-full px-3 py-2 text-black bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -219,12 +212,12 @@ const Lobby = () => {
                 value={walletAddress}
                 readOnly
                 disabled
-                className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 bg-gray-100 border text-gray-600 border-gray-300 rounded-md shadow-sm sm:text-sm"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-[#c9fa00] text-black px-4 py-2 rounded-md hover:bg-[#d9f762] focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={isRegistering}
             >
               {isRegistering ? "Registering..." : "Register"}
@@ -284,8 +277,10 @@ const Lobby = () => {
             <button
               className="bg-[#B9FF09] rounded-full text-xl px-10 py-3 text-black"
               onClick={() => {
-                setAllowed();
-                setWalletAddress(account?.address);
+                setAllowed().then(() => {
+                  setWalletAddress(account?.address);
+                  window.location.reload();
+                });
               }}
             >
               Connect Wallet
