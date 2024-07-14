@@ -116,8 +116,8 @@ body {
 
 .herobg {
   position: absolute;
-  left: 30%;
-  top: 10%;
+  /* left: 30%;
+  top: 10%; */
   animation: slideInFromBottom 1s ease-out;
   z-index: 1;
 }
@@ -126,25 +126,27 @@ body {
   font-family: "Handjet", sans-serif;
   font-weight: 700;
   letter-spacing: 8px;
-  font-size: 120px;
   margin-top: 20px;
+  color: #c9fa00;
+  z-index: 2;
+}
+
+.herotxtd {
+  font-family: "Handjet", sans-serif;
+  font-weight: 700;
+  /* letter-spacing: 8px; */
+  /* margin-top: 5px; */
   color: #c9fa00;
   z-index: 2;
 }
 
 .text-container {
   position: absolute;
-  width: 100%;
-  top: 20%;
   text-align: center;
-  z-index: 1; /* Ensure text is behind the image */
 }
 
 .additional-content {
   position: absolute;
-  top: 70%;
-  right: 4%;
-  width: 340px;
   z-index: 2;
   text-align: right;
 }
@@ -221,8 +223,16 @@ body {
 .hero2txt {
   font-family: "Handjet", sans-serif;
   font-weight: 700;
-  width: 800px;
+  text-align: center;
   font-size: 60px;
+  color: #c9fa00;
+}
+
+.hero2txt1 {
+  font-family: "Handjet", sans-serif;
+  font-weight: 700;
+  text-align: center;
+  /* line-height: 60px; */
   color: #c9fa00;
 }
 

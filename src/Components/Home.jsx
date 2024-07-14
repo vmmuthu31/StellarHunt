@@ -121,16 +121,30 @@ function Home() {
 
       <main className="min-h-screen bg-[url('./bg.png')] bg-cover bg-center relative overflow-hidden">
         <Navbar />
-        <div className="text-container shooter-game-ui">
-          <p className="herotxt">
+        <div className="text-container z-1 md:block hidden left-[3%] md:top-[20%] md:left-[10%] md:width-[100%]  shooter-game-ui">
+          <p className="herotxt text-[50px] md:text-[120px]">
             A New Era &nbsp; &nbsp; &nbsp; &nbsp; Multiplayer
           </p>
-          <p className="herotxt">Onchain &nbsp; &nbsp; &nbsp; Adventure</p>
+          <p className="herotxt text-xl md:text-[120px]">
+            Onchain &nbsp; &nbsp; &nbsp; Adventure
+          </p>
         </div>
-        <img src={herobg} alt="Hero Background" className="herobg" />
-        <div className="additional-content">
+        <div className="text-container z-10 md:hidden block  left-[8%] top-[45%] md:left-[10%] width-[100%]  shooter-game-ui">
+          <p className="herotxtd text-[50px] md:text-[120px]">
+            A New Era Multiplayer
+          </p>
+          <p className="herotxtd text-[50px] md:text-[120px]">
+            Onchain Adventure
+          </p>
+        </div>
+        <img
+          src={herobg}
+          alt="Hero Background"
+          className="herobg left-[5%] top-[10%] md:left-[30%] md:top-[10%]"
+        />
+        <div className="additional-content top-[100%] right-[7%] w-[300px] md:top-[70%] md:right-[4%] md:w-[340px]">
           <p className="highlight-text">Pushing the Limits of Onchain Gaming</p>
-          <p className="description-text">
+          <p className="description-text ">
             Immerse yourself in the future of gaming on the Stellar chain.
             Experience epic PvP battles, earn exclusive NFT rewards, and embrace
             gaming realism like never before.
@@ -138,33 +152,57 @@ function Home() {
         </div>
       </main>
       <div>
-        <hr className="border-[#c9fa00]" />
-        <div className="running-text-container">
+        <hr className="border-[#c9fa00]  " />
+        <div className="running-text-container ">
           <div className="running-text flex items-center">
-            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
+            <span className="text-[#A3C60FE5] hrtxt md:text-3xl text-lg mr-2">
               Experience the Future of Gaming on the Stellar Chain!
             </span>
-            <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
+            <img
+              src={starsvg}
+              alt="star"
+              className="inline-block md:w-auto md:h-auto h-10 w-10 mr-2"
+            />
+            <span className="text-[#A3C60FE5] hrtxt  md:text-3xl text-lg mr-2">
               Dynamic Challenges Await – Are You Ready to Conquer?
             </span>
-            <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
+            <img
+              src={starsvg}
+              alt="star"
+              className="inline-block md:w-auto md:h-auto h-10 w-10 mr-2"
+            />
+            <span className="text-[#A3C60FE5] hrtxt md:text-3xl text-lg mr-2">
               Join Now and Prove Your Skills!
             </span>
-            <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
+            <img
+              src={starsvg}
+              alt="star"
+              className="inline-block md:w-auto md:h-auto h-10 w-10 mr-2"
+            />
+            <span className="text-[#A3C60FE5] hrtxt md:text-3xl text-lg mr-2">
               Experience the Future of Gaming on the Stellar Chain!
             </span>
-            <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
+            <img
+              src={starsvg}
+              alt="star"
+              className="inline-block md:w-auto md:h-auto h-10 w-10 mr-2"
+            />
+            <span className="text-[#A3C60FE5] hrtxt md:text-3xl text-lg mr-2">
               Dynamic Challenges Await – Are You Ready to Conquer?
             </span>
-            <img src={starsvg} alt="star" className="inline-block mr-2" />
-            <span className="text-[#A3C60FE5] hrtxt text-3xl mr-2">
+            <img
+              src={starsvg}
+              alt="star"
+              className="inline-block md:w-auto md:h-auto h-10 w-10 mr-2"
+            />
+            <span className="text-[#A3C60FE5] hrtxt md:text-3xl text-lg mr-2">
               Join Now and Prove Your Skills!
             </span>
-            <img src={starsvg} alt="star" className="inline-block mr-2" />
+            <img
+              src={starsvg}
+              alt="star"
+              className="inline-block md:w-auto md:h-auto h-10 w-10 mr-2"
+            />
           </div>
         </div>
         <hr className="border-[#c9fa00]" />
@@ -201,13 +239,18 @@ function Home() {
           }
         `}</style>
 
-        <div className="flex mt-20 justify-between">
-          <img src={left} alt="left" className="left" />
-          <div>
-            <p className="text-center hero2txt ">
-              CONQUER THE FUTURE OF GAMING ON THE STELLAR CHAIN!
+        <div className="flex mt-10 md:mt-20 justify-between">
+          <img
+            src={left}
+            alt="left"
+            className="left md:w-auto md:h-auto w-20 h-20"
+          />
+          <div className="flex flex-col items-center">
+            <p className="text-center hero2txt1 md:leading-[80px] md:text-[80px] text-3xl ">
+              CONQUER THE FUTURE OF GAMING
+              <br /> ON THE STELLAR CHAIN!
             </p>
-            <p className="w-[700px] text-[#D6D6D6] herodesc text-center">
+            <p className="md:w-[700px] mt-3 text-[#D6D6D6] herodesc text-sm md:text-xl  text-center">
               Experience intense multiplayer battles, climb leaderboards for
               exclusive NFT rewards, and enjoy lifelike graphics powered by
               blockchain technology. Enter custom rooms, strategize, and
@@ -215,7 +258,11 @@ function Home() {
               excitement.
             </p>
           </div>
-          <img src={right} alt="right" className="right" />
+          <img
+            src={right}
+            alt="right"
+            className="right md:w-auto md:h-auto w-20 h-20"
+          />
         </div>
       </div>
       <div>
@@ -279,8 +326,8 @@ function Home() {
           }
         `}</style>
 
-        <div className="flex justify-center mt-10 py-10 gap-10 items-center">
-          <div className="glowing-border w-[400px] text-center border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center ">
+        <div className="flex md:flex-row flex-col md:px-0 px-10 justify-center md:mt-10 py-10 gap-10 items-center">
+          <div className="glowing-border md:w-[400px] text-center border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center ">
             <img src={icon} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Epic PvP Thrills</p>
             <p className="text-lg text-center">
@@ -288,7 +335,7 @@ function Home() {
               Outsmart and conquer your opponents to rise to the top.
             </p>
           </div>
-          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
+          <div className="text-center md:w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon1} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Exclusive NFT Rewards</p>
             <p className="text-lg text-center">
@@ -296,7 +343,7 @@ function Home() {
               trade these digital assets to enhance your in-game legacy.{" "}
             </p>
           </div>
-          <div className="text-center w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
+          <div className="text-center md:w-[400px] glowing-border border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon2} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Blockchain Realism</p>
             <p className="text-lg text-center">
@@ -306,8 +353,8 @@ function Home() {
             </p>
           </div>
         </div>
-        <div className="flex mt-2 justify-center py-10 gap-10 items-center">
-          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
+        <div className="flex md:flex-row flex-col md:px-0 px-10  mt-2 justify-center py-10 gap-10 items-center">
+          <div className="text-center glowing-border md:w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon3} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Community-driven Evolution</p>
             <p className="text-lg text-center">
@@ -315,7 +362,7 @@ function Home() {
               Join events and collaborate with other players.
             </p>
           </div>
-          <div className="text-center glowing-border w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
+          <div className="text-center glowing-border md:w-[400px] border-x-[0.8px] border-t-[0.2px] p-10 rounded-2xl border-[#c9fa00] card1 flex flex-col gap-5 items-center">
             <img src={icon4} alt="icon1" className="w-32 h-32 zoom-effect-ui" />
             <p className="text-2xl font-bold">Real-world </p>
             <p className="text-lg text-center">
@@ -339,16 +386,26 @@ function Home() {
 
       <div>
         <div id="howitworks" className="flex mt-20 justify-between">
-          <img src={left} alt="left" className="left" />
+          <img
+            src={left}
+            alt="left"
+            className="left md:w-auto md:h-auto w-20 h-20"
+          />
           <div>
-            <p className="text-center hero2txt ">HOW STELLARHUNT WORKS? </p>
-            <p className="w-[800px] text-[#D6D6D6] herodesc text-center">
+            <p className="text-center hero2txt1  md:leading-[80px] md:text-[80px] text-3xl">
+              HOW STELLARHUNT WORKS?{" "}
+            </p>
+            <p className="md:w-[800px] mt-2 text-sm md:text-xl text-[#D6D6D6] herodesc text-center">
               Discover the seamless integration of blockchain technology and
               immersive gameplay with StellarHunt. Here’s how you can dive into
               the adventure:{" "}
             </p>
           </div>
-          <img src={right} alt="right" className="right" />
+          <img
+            src={right}
+            alt="right"
+            className="right md:w-auto md:h-auto w-20 h-20"
+          />
         </div>
       </div>
       <div>
@@ -393,8 +450,8 @@ function Home() {
             animation: circularMotion 5s infinite ease-in-out;
           }
         `}</style>
-        <div className="flex mt-40 justify-center py-5 gap-10 items-center">
-          <div className="flex flex-col items-center">
+        <div className="flex md:flex-row flex-col md:px-0 px-10  mt-40 justify-center py-5 gap-10 items-center">
+          <div className="flex  md:mt-0 flex-col items-center">
             <img
               src={g1}
               alt="g1"
@@ -411,7 +468,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col  items-center">
+          <div className="flex mt-28 md:mt-0 flex-col  items-center">
             <img
               src={g2}
               alt="g1"
@@ -427,7 +484,7 @@ function Home() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex mt-28 md:mt-0 flex-col items-center">
             <img
               src={g3}
               alt="g1"
@@ -444,7 +501,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="flex mt-28 align-middle  justify-center py-10 gap-10 items-center">
+        <div className="flex md:flex-row flex-col md:px-0 px-10 mt-20  md:mt-28 align-middle  justify-center py-10 gap-10 items-center">
           <div className="flex flex-col items-center">
             <img
               src={g4}
@@ -461,7 +518,7 @@ function Home() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex mt-20 md:mt-0 flex-col items-center">
             <img
               src={g5}
               alt="g1"
