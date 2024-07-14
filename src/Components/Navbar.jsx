@@ -87,7 +87,7 @@ export default function Navbar() {
               <Bars3Icon aria-hidden="true" className="h-6 w-6" />
             </button>
           </div>
-          <div className="hidden lg:flex  lg:justify-end">
+          <div className="hidden lg:flex lg:items-center  lg:justify-end">
             <Link href="/lobby">
               <p className="playnowbtn text-white wobble-effect-ui">
                 Play Now!
