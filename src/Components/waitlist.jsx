@@ -97,7 +97,7 @@ const WaitlistForm = () => {
     }
   };
 
-  const shareLink = "https://stellarhunt.vercel.app/waitlist";
+  const shareLink = "https://stellarhunt.xyz/waitlist";
   return (
     <div className="bg-[url('https://blogger.googleusercontent.com/img/a/AVvXsEicOwCW7fWeZ9xLNlLeabY6YZaSndKriwzi7evh6saDDipcRL4_3PjstCbRj-XX8D4T94t_9_R9I7tFVTfp7cUkLDQ-KsxGkuLcTO5o2YjSbhx4P_l-ejYi1S_MjsOv_YVTYwve1iMn6LsmZiinZFCxxCCXOyoOITRutiSjyNkBwDUAML9ZHMgsILPAzTo')] min-h-screen bg-no-repeat bg-cover">
       <style jsx>{glowKeyframes}</style>
